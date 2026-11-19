@@ -1,0 +1,99 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { site } from "@/site.config";
+import { url, absolute } from "@/lib/url";
+
+/* Route cards pre-select the reason field; links elsewhere can do the same with ?reason=<value> */
+const reasons = [
+  { value: "Residential", title: "A home project", body: "A kitchen, wardrobe, vanity, built-in or a whole house.", link: "Start here" },
+  { value: "Commercial", title: "A commercial project", body: "A restaurant, shop, office or institution, or a drawing set to price.", link: "Start here" },
+  { value: "General", title: "Something else", body: "A question, a supplier note, anything that is not a project yet.", link: "Say hello" },
+];
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absolute() },
+      { "@type": "ListItem", position: 2, name: "Contact", item: absolute("contact/") },
+    ],
+  },
+];
+---
+<Layout
+  title="Contact Selections | Free Millwork Consultation"
+  description="Book a free consultation with Selections Interiors & Design. 19-5200 Dixie Rd., Mississauga. Office (905) 629-0001."
+  path="contact/"
+  current="contact"
+  schema={schema}
+>
+<main class="page">
+  <section class="page-hero contact-hero">
+    <svg class="contact-plan" viewBox="0 0 1600 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <path class="pl" style="--d:0s" d="M860 470 H1540 V60 H860 Z" pathLength="1" />
+      <path class="pl" style="--d:0.25s" d="M860 300 H1120 M1120 470 V200 M1120 60 V120 M1300 60 V180 H1540" pathLength="1" />
+      <path class="pl thin" style="--d:0.6s" d="M880 80 H1100 V140 H880 Z M880 320 H1000 V450 H880 Z M1320 80 H1520 V160 H1320 Z M1140 400 H1520 V450 H1140 Z" pathLength="1" />
+      <path class="pl thin" style="--d:0.9s" d="M1120 120 A80 80 0 0 1 1200 200 M1120 200 H1200" pathLength="1" />
+      <path class="pl red" style="--d:1.2s" d="M860 500 H1540 M860 492 V508 M1540 492 V508 M1570 60 V470 M1562 60 H1578 M1562 470 H1578" pathLength="1" />
+    </svg>
+    <div class="wrap">
+      <div>
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><a href={url()}>Home</a><span>/</span>Contact</nav>
+        <span class="eyebrow">Contact · Sheet A-400</span>
+        <h1>Bring us a room.</h1>
+        <p class="lede">Tell us what you are planning and we will set up a consultation. The first one is free.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="route-cards">
+        {reasons.map((r) => (
+          <button class="route-card reveal" type="button" data-reason={r.value}><h3>{r.title}</h3><p>{r.body}</p><span class="link-arrow">{r.link}</span></button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section paper" id="form">
+    <div class="wrap form-layout">
+      <div class="sticky reveal">
+        <span class="eyebrow">Get in touch</span>
+        <h2 class="h2" style="margin-top:0.8rem">Send us the brief</h2>
+        <dl class="contact-details" style="margin-top:2rem">
+          <div><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+          <div><dt>Office</dt><dd><a href="tel:+19056290001">{site.office}</a></dd></div>
+          <div><dt>Cell</dt><dd><a href="tel:+14165623721">{site.cell}</a></dd></div>
+          <div><dt>Address</dt><dd>{site.address[0]}<br />{site.address[1]}</dd></div>
+          <div><dt>Hours</dt><dd>{site.hours[0]}<br />{site.hours[1]}</dd></div>
+        </dl>
+      </div>
+      <div>
+        <form class="form reveal" method="post" data-form="contact">
+          <div class="row"><div class="field"><label for="first_name">First name*</label><input id="first_name" name="first_name" type="text" autocomplete="given-name" required /></div><div class="field"><label for="last_name">Last name*</label><input id="last_name" name="last_name" type="text" autocomplete="family-name" required /></div></div>
+          <div class="row"><div class="field"><label for="email">Email*</label><input id="email" name="email" type="email" autocomplete="email" required /></div><div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" /></div></div>
+          <div class="field"><label for="reason">This is about*</label><select id="reason" name="reason" required><option value="" disabled selected>Select…</option>{reasons.map((r) => <option value={r.value}>{r.title}</option>)}</select></div>
+          <div class="field"><label for="message">The room, and what it needs to do*</label><textarea id="message" name="message" required placeholder="Which room, roughly how big, and when you hope to start."></textarea></div>
+          <button class="btn btn-solid btn-lg" type="submit">Send the brief</button>
+          <p class="micro recaptcha-note">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
+        </form>
+        <div class="form-success"><h3>Thanks. We have it.</h3><p>We will be in touch to set up your consultation.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+</Layout>
+
+<style is:global>
+  /* The contact sheet draws a small room plan behind its heading on load */
+  .contact-hero { position: relative; overflow: hidden; min-height: 56vh; display: flex; align-items: center; }
+  .contact-hero .wrap { position: relative; z-index: 1; width: 100%; }
+  .contact-plan { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.55; }
+  .contact-plan .pl { fill: none; stroke: var(--ink); stroke-width: 2.4; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; animation: plan-draw 1.6s cubic-bezier(0.7, 0, 0.2, 1) var(--d) forwards; }
+  .contact-plan .pl.thin { stroke-width: 1; }
+  .contact-plan .pl.red { stroke: var(--red); stroke-width: 1; }
+  @keyframes plan-draw { to { stroke-dashoffset: 0; } }
+  @media (max-width: 860px) { .contact-plan { opacity: 0.22; } .contact-hero { min-height: 44vh; } }
+  @media (prefers-reduced-motion: reduce) { .contact-plan .pl { animation: none; stroke-dashoffset: 0; } }
+</style>

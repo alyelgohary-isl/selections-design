@@ -1,0 +1,37 @@
+---
+import { site } from "../site.config";
+import { url } from "../lib/url";
+
+const [first, second] = site.brand;
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href={url()} aria-label={site.name}>{first}<span class="brand-tag">{second}</span></a>
+        <p>{site.description}</p>
+        <p class="tagline">{site.tagline}</p>
+      </div>
+      {site.footer.columns.map((col) => (
+        <div class="footer-col">
+          <h3>{col.title}</h3>
+          <ul>
+            {col.links.map((link) => <li><a href={url(link.href)}>{link.label}</a></li>)}
+          </ul>
+        </div>
+      ))}
+      <div class="footer-col">
+        <h3>Office</h3>
+        <ul>
+          {site.address.map((line) => <li>{line}</li>)}
+          {site.hours.map((line) => <li class="footer-hours">{line}</li>)}
+        </ul>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p>&copy; {year} {site.name}. All rights reserved. {site.footer.legal}</p>
+      <p class="footer-social">{site.footer.social.map((s) => <a href={s.href} rel="noopener">{s.label}</a>)}</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,114 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import DrawnFilm from "@/components/motion/DrawnFilm.astro";
+import Sheet from "@/components/motion/Sheet.astro";
+import { site } from "@/site.config";
+import { url, absolute } from "@/lib/url";
+import { clients } from "@/data/clients";
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absolute() },
+      { "@type": "ListItem", position: 2, name: "Studio", item: absolute("studio/") },
+    ],
+  },
+];
+---
+<Layout
+  title="About Selections Interiors & Design | Mississauga"
+  description="A full-service design and woodworking company in Mississauga, serving the GTA and Muskoka for over 30 years. Residential and commercial millwork."
+  path="studio/"
+  current="studio"
+  schema={schema}
+  variant="film"
+>
+  <DrawnFilm units={2} hint="Scroll to cut">
+    <Sheet id="studio" no="A-300" title="Studio · Over 30 years" units={2} reveal="doors"
+      panels={[{ src: "kitchen-angle", alt: "Kitchen seen from the island: white handle-free drawers, a veined slab backsplash and black tall cabinets", pos: "50% 55%", portrait: "classic-tall", portraitPos: "50% 50%" }]}>
+      <Fragment slot="hero">
+        <div class="page-title">
+          <nav class="breadcrumbs" aria-label="Breadcrumb"><a href={url()}>Home</a><span>/</span>Studio</nav>
+          <span class="eyebrow">The studio</span>
+          <h1 class="hero-heading"><span class="line"><span class="word">Thirty years of</span></span> <span class="line"><span class="word"><em>things that fit.</em></span></span></h1>
+          <div class="hero-foot">
+            <div class="hero-tagline-wrap"><p class="hero-tagline">A full-service design and woodworking company, serving the GTA and Muskoka for over 30 years.</p></div>
+          </div>
+        </div>
+      </Fragment>
+      <h2 class="beat-heading">Design and woodworking, <em>under one roof.</em></h2>
+      <p class="beat-body">Creativity, technical expertise and close attention to detail, on every job from a single vanity to a restaurant.</p>
+    </Sheet>
+  </DrawnFilm>
+  <!-- CONFIRM: founding year, to replace "over 30 years" with a date -->
+
+  <main class="page-flow">
+    <section class="section ruled" id="approach">
+      <div class="wrap statement">
+        <h2 class="reveal">Beautiful is the minimum. It also has to work.</h2>
+        <div class="reveal">
+          <p>Selections Interiors &amp; Design brings current design thinking to modern and traditional interiors alike. Our approach combines creativity, technical expertise and meticulous attention to detail.</p>
+          <p>Whether you are renovating a kitchen, a single room, building a new home or redesigning a commercial space, our team guides you through every step.</p>
+          <p class="accent">Great design should improve how you live in a space, not only how it looks.</p>
+          <!-- CONFIRM: founder and team names, portraits and a shop photograph for this page -->
+        </div>
+      </div>
+    </section>
+
+    <section class="proof-bar">
+      <div class="wrap proof-grid" style="padding: 0 var(--gutter); max-width: none;">
+        <div class="proof-item reveal"><span class="proof-figure">30+</span><span class="proof-label">Years in business</span></div>
+        <div class="proof-item reveal"><span class="proof-figure">GTA</span><span class="proof-label">and Muskoka served</span></div>
+        <div class="proof-item reveal"><span class="proof-figure">2</span><span class="proof-label">Sectors: residential and commercial</span></div>
+        <div class="proof-item reveal"><span class="proof-figure">1</span><span class="proof-label">Team, design to installation</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="clients">
+      <div class="wrap statement">
+        <div class="reveal">
+          <span class="eyebrow">Commercial clients</span>
+          <h2 style="margin-top:0.9rem">Trusted by Canadian brands and institutions.</h2>
+          <p style="margin-top:1.2rem">A proud Canadian business. Alongside private homes, we build for restaurants, universities, school boards, cities and transit.</p>
+          <div class="hero-ctas" style="margin-top:1.6rem"><a class="btn btn-ghost" href={url("work/?type=commercial")}>Commercial work</a></div>
+        </div>
+        <table class="schedule roomy reveal">
+          <caption>Client schedule</caption>
+          <thead><tr><th>Mark</th><th>Client</th><th>Sector</th></tr></thead>
+          <tbody>
+            {clients.map((c, i) => <tr><td>C{String(i + 1).padStart(2, "0")}</td><td class="name">{c.name}</td><td>{c.sector}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section ruled" id="archive">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">From the archive</span>
+          <h2>The earlier sheets.</h2>
+          <p>Earlier commercial fixtures: a lit display wall, an office storage wall and showcase plinths.</p>
+        </div>
+        <div class="archive">
+          <figure class="reveal"><img src={url("assets/img/archive-1.webp")} alt="Wood display wall with lit glass shelves in a shop" loading="lazy" /><figcaption>Retail · Display wall</figcaption></figure>
+          <figure class="reveal"><img src={url("assets/img/archive-2.webp")} alt="Office storage wall with open and glazed compartments" loading="lazy" /><figcaption>Office · Storage wall</figcaption></figure>
+          <figure class="reveal"><img src={url("assets/img/archive-3.webp")} alt="Curved wood and steel showcase plinths in a shop window" loading="lazy" /><figcaption>Retail · Showcase plinths</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pine final-cta" id="start">
+      <div class="wrap reveal">
+        <span class="eyebrow">Start a drawing</span>
+        <h2 style="margin-top:1rem">Come and talk it through.</h2>
+        <p>{site.address.join(", ")}. The first consultation is free.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-light btn-lg" href={url("contact/")}>Book a free consultation</a>
+          <a class="btn btn-ghost btn-lg" href={url("work/")}>See the work</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

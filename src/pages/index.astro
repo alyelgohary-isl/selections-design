@@ -1,0 +1,174 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import DrawnFilm from "@/components/motion/DrawnFilm.astro";
+import Sheet from "@/components/motion/Sheet.astro";
+import { site } from "@/site.config";
+import { url } from "@/lib/url";
+import { clients } from "@/data/clients";
+
+/* Copy: work/copy.md. Every photograph is the client's own; every drawing is made from that
+   photograph (tools/draw.sh). Facts not in the source material are CONFIRM comments. */
+const builds = [
+  { title: "Kitchens", desc: "Islands, pantries, appliance walls and the cabinetry between them.", meta: "Residential", img: "kitchen-p", pos: "50% 60%", href: "work/" },
+  { title: "Wardrobes & dressing rooms", desc: "Fitted doors, drawers and islands for the things you wear.", meta: "Residential", img: "wardrobe-p", pos: "50% 50%", href: "work/" },
+  { title: "Built-ins & wall units", desc: "Libraries, media walls and storage made for one wall only.", meta: "Residential", img: "library-p", pos: "50% 40%", href: "work/" },
+  { title: "Bars & fixtures", desc: "Counters, back bars, display and millwork for public rooms.", meta: "Commercial", img: "harbour", pos: "70% 50%", href: "work/?type=commercial" },
+];
+---
+<Layout
+  title="Selections | Custom Millwork & Design-Build, Mississauga"
+  description="Custom millwork and design-build for homes, restaurants and institutions across the GTA and Muskoka. Drawn, cut and fitted by one team for over 30 years."
+  path=""
+  variant="film"
+>
+  <DrawnFilm units={8.2} loader={site.brand[0]}>
+    <Sheet id="kitchen" no="A-01" title="Kitchen · Elevation" units={1.7} reveal="saw"
+      panels={[{ src: "kitchen", alt: "Kitchen with a long black island seating four, pale wood upper cabinets and a veined slab backsplash", pos: "50% 58%", portrait: "kitchen-p", portraitPos: "50% 60%" }]}>
+      <Fragment slot="hero">
+        <span class="eyebrow">Custom millwork + design-build · GTA &amp; Muskoka</span>
+        <h1 class="hero-heading">
+          <span class="line"><span class="word">Drawn,</span></span>
+          <span class="line"><span class="word">cut,</span></span>
+          <span class="line"><span class="word"><em>fitted.</em></span></span>
+        </h1>
+        <div class="hero-foot">
+          <div class="hero-tagline-wrap"><p class="hero-tagline">Selections designs and builds custom millwork for homes, restaurants and institutions. Over thirty years of things that fit.</p></div>
+          <div class="hero-ctas">
+            <a class="btn btn-solid" href={url("work/")}>See the work</a>
+            <a class="btn btn-ghost" href={url("contact/")}>Free consultation</a>
+          </div>
+        </div>
+      </Fragment>
+      <h2 class="beat-heading">It starts as <em>a drawing.</em></h2>
+      <p class="beat-body">Layout, materials, every door and drawer: worked out on paper with you before anything is cut.</p>
+    </Sheet>
+
+    <Sheet id="wardrobe" no="A-02" title="Wardrobe · Doors" units={1.3} enter="rise" reveal="doors"
+      panels={[{ src: "wardrobe", alt: "Bedroom with a wall of mirrored wardrobe doors overlaid with painted fretwork", pos: "30% 50%", portrait: "wardrobe-p", portraitPos: "40% 50%" }]}>
+      <h2 class="beat-heading">Built by the people <em>who drew it.</em></h2>
+      <p class="beat-body">Kitchens, wardrobes, vanities and wall units, made to the drawing by one team from planning to installation.</p>
+    </Sheet>
+
+    <Sheet id="library" no="A-03" title="Library wall · Built-ins" units={1.3} enter="slide" reveal="skyline"
+      panels={[{ src: "library", alt: "Painted built-in bookcases with coloured backs either side of a fireplace", pos: "60% 50%", portrait: "library-p", portraitPos: "50% 45%" }]}>
+      <h2 class="beat-heading">Made for <em>one wall only.</em></h2>
+      <p class="beat-body">Built-ins are finished to the wall, floor and ceiling they meet, so the piece looks like it was always there.</p>
+    </Sheet>
+
+    <Sheet id="range" no="A-04" title="Three rooms · Three hands of door" units={1.5} enter="doors" reveal="drawer"
+      panels={[
+        { src: "classic", alt: "Cream raised-panel kitchen with fretwork glass doors and a carved island corbel", pos: "50% 40%" },
+        { src: "marble", alt: "White kitchen with a stone-wrapped peninsula and glass pendants", pos: "50% 55%" },
+        { src: "powder", alt: "Powder room with pale wood wall panelling and a stone trough vanity", pos: "50% 55%" },
+      ]}>
+      <h2 class="beat-heading">Carved classic to <em>flat-panel modern.</em></h2>
+      <p class="beat-body">Traditional or modern, the same care goes into both.</p>
+    </Sheet>
+
+    <Sheet id="harbour" no="A-05" title="Snug Harbour · Bar" units={1.3} enter="rise" reveal="saw"
+      panels={[{ src: "harbour", alt: "Restaurant bar at Snug Harbour with a long counter, stools and a lit back bar", pos: "62% 50%", portraitPos: "70% 50%" }]}>
+      <h2 class="beat-heading">Restaurants, retail, <em>campuses.</em></h2>
+      <p class="beat-body">Bars, counters and fixtures for clients such as Snug Harbour, Hero Certified Burgers, the University of Toronto and Metrolinx.</p>
+      <a class="link-arrow" href={url("work/?type=commercial")}>Commercial work</a>
+    </Sheet>
+
+    <Sheet id="long" no="A-06" title="The long view" units={1.1} enter="rise">
+      <div class="long-view">
+        <div>
+          <span class="eyebrow" data-in>The long view</span>
+          <p class="long-figure" data-in style="--d:0.4"><span class="stat-number" data-value="30" data-decimals="0">30</span><sup>+</sup></p>
+          <p class="long-caption" data-in style="--d:0.8">years of millwork across the GTA and Muskoka.</p>
+        </div>
+        <table class="schedule" data-in style="--d:1.2">
+          <caption>Client schedule</caption>
+          <thead><tr><th>Mark</th><th>Client</th><th>Sector</th></tr></thead>
+          <tbody>
+            {clients.map((c, i) => <tr><td>C{String(i + 1).padStart(2, "0")}</td><td class="name">{c.name}</td><td>{c.sector}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+    </Sheet>
+  </DrawnFilm>
+
+  {/* Released page flow: statement → featured → grid → CTA. Everything else lives on inner pages. */}
+  <main class="page-flow">
+    <section class="section ruled" id="about">
+      <div class="wrap statement">
+        <h2 class="reveal">One team, from the first sketch to the last scribe.</h2>
+        <div class="reveal">
+          <p>Selections Interiors &amp; Design is a full-service design and woodworking company. We have served the GTA and Muskoka for over 30 years.</p>
+          <p>Renovating a kitchen, a single room, building a new home or fitting out a commercial space: we take it from the first plan to the installed piece.</p>
+          <p class="accent">Great design should change how you live in the room, not only how it looks.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section no-top" id="featured">
+      <div class="wrap">
+        <article class="featured reveal">
+          <div class="featured-media drawn" data-drawn>
+            <img class="drawn-line" src={url("assets/img/kitchen-angle-line.webp")} alt="" loading="lazy" />
+            <img class="drawn-photo" src={url("assets/img/kitchen-angle.webp")} alt="The same kitchen from the island: handle-free white drawers, a veined slab backsplash and black tall cabinets" loading="lazy" />
+          </div>
+          <div class="featured-body">
+            <span class="status-label"><span class="dot"></span>Featured · Residential</span>
+            <h2>The black-and-oak kitchen</h2>
+            <p class="featured-lede">Three finishes and almost no hardware: the lines of the cabinetry do the work.</p>
+            <!-- CONFIRM: location, year, wood species and stone for this kitchen -->
+            <dl class="spec-list">
+              <div><dt>Room</dt><dd>Kitchen</dd></div>
+              <div><dt>Fronts</dt><dd>Flat panel, handle-free</dd></div>
+              <div><dt>Island</dt><dd>Seats four</dd></div>
+              <div><dt>Backsplash</dt><dd>Full-height slab</dd></div>
+            </dl>
+            <div class="hero-ctas">
+              <a class="btn btn-solid" href={url("work/")}>See the project</a>
+              <a class="btn btn-ghost" href={url("millwork/")}>How we build</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="grid">
+      <div class="wrap">
+        <div class="split-head">
+          <div class="section-head reveal">
+            <span class="eyebrow">What we build</span>
+            <h2>Four kinds of millwork, one way of working.</h2>
+            <p>Every room here started as the drawing underneath it.</p>
+          </div>
+          <a class="btn btn-ghost reveal" href={url("work/")}>All work</a>
+        </div>
+        <div class="card-grid cols-4">
+          {builds.map((b) => (
+            <a class="community-card reveal" href={url(b.href)}>
+              <div class="card-media">
+                <img class="card-line" src={url(`assets/img/${b.img}-line.webp`)} alt="" loading="lazy" style={`object-position:${b.pos}`} />
+                <img class="card-photo" src={url(`assets/img/${b.img}.webp`)} alt="" loading="lazy" style={`object-position:${b.pos}`} />
+              </div>
+              <div class="card-body">
+                <p class="card-meta">{b.meta}</p>
+                <h3>{b.title}</h3>
+                <p class="card-desc">{b.desc}</p>
+                <span class="link-arrow">See examples</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section pine final-cta" id="start">
+      <div class="wrap reveal">
+        <span class="eyebrow">Start a drawing</span>
+        <h2 style="margin-top:1rem">Bring us a room.</h2>
+        <p>Tell us what you are planning. The first consultation is free.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-light btn-lg" href={url("contact/?reason=Residential")}>A home project</a>
+          <a class="btn btn-ghost btn-lg" href={url("contact/?reason=Commercial")}>A commercial project</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

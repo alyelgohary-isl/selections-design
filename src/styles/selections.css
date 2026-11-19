@@ -1,0 +1,250 @@
+/* ————————————————————————————————
+   Selections Interiors & Design: the sheet.
+   Loaded after style.css. The template's components stay; this file gives them the
+   drafting-room treatment (square corners, ink rules, mono labels) and adds the few
+   blocks that are this site's own: project strips, the schedule table, drawn figures.
+———————————————————————————————— */
+
+h1, h2, h3, .display { font-weight: 350; letter-spacing: -0.022em; font-optical-sizing: auto; }
+em, i { font-style: italic; }
+::selection { background: var(--red); color: var(--on-dark); }
+
+.mono, .eyebrow, .breadcrumbs, .status-label, .card-meta, .micro, .field label, .contact-details dt, .spec-list dt, .footer-col h3, .steps li::before {
+  font-family: var(--font-mono);
+}
+
+/* ——— Header: the top strip of the sheet, always solid ——— */
+.site-header, body.film .site-header {
+  height: var(--header-h); padding: 0 var(--gutter);
+  background: var(--cream); border-bottom: 1px solid var(--ink);
+  pointer-events: auto;
+}
+.brand { font-size: 1.55rem; font-weight: 400; letter-spacing: -0.02em; display: inline-flex; align-items: baseline; gap: 0.85rem; }
+.brand-tag {
+  font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-soft); padding-left: 0.85rem; border-left: 1px solid var(--rule); line-height: 1.5;
+}
+.site-nav { gap: clamp(1.1rem, 2.2vw, 2.2rem); }
+.site-nav a { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+.site-nav a .nav-no { color: var(--red); margin-right: 0.6em; }
+.site-nav a[aria-current="page"] { color: var(--ink); box-shadow: 0 1px 0 var(--red); }
+.header-cta, .site-nav .header-cta {
+  font-family: var(--font-mono); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--on-dark); background: var(--ink); border: 1px solid var(--ink); border-radius: 0; padding: 0.7rem 1rem;
+}
+.header-cta:hover, .header-cta:focus-visible { background: var(--red); border-color: var(--red); }
+.nav-toggle { border-radius: 0; border-color: var(--ink); }
+
+/* ——— Small marks ——— */
+.eyebrow { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.16em; color: var(--red); }
+.eyebrow::before { content: ""; display: inline-block; width: 1.6rem; height: 1px; background: currentColor; vertical-align: 0.32em; margin-right: 0.8em; }
+
+.btn {
+  border-radius: 0; font-family: var(--font-mono); font-size: 0.74rem; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase; padding: 1rem 1.5rem;
+}
+.btn:hover { transform: none; }
+.btn-solid { background: var(--ink); border-color: var(--ink); color: var(--on-dark); }
+.btn-solid:hover { background: var(--red); border-color: var(--red); }
+.btn-ghost { border-color: var(--ink); color: var(--ink); background: transparent; }
+.btn-ghost:hover { background: var(--ink); border-color: var(--ink); color: var(--on-dark); }
+.btn-light { background: var(--on-dark); border-color: var(--on-dark); color: var(--ink); }
+.btn-light:hover { background: var(--oak); border-color: var(--oak); }
+.btn-lg { padding: 1.15rem 1.8rem; font-size: 0.78rem; }
+.btn-sm { padding: 0.7rem 1rem; font-size: 0.68rem; }
+.link-arrow { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); box-shadow: 0 1px 0 var(--red); padding-bottom: 0.2em; }
+.link-arrow:hover { color: var(--red); }
+
+/* ——— Home hero copy, on the drawing ——— */
+.hero-heading { font-size: clamp(3.4rem, min(11.2vw, 17vh), 11.5rem); line-height: 0.86; font-weight: 300; letter-spacing: -0.045em; margin-top: 1.1rem; }
+.hero-heading .line { padding: 0.16em 0.06em 0.1em; margin: -0.16em -0.06em 0; }   /* room for the serif's overshoot inside the clipping line */
+.hero-heading .line:nth-child(2) { padding-left: 0.55em; }
+.hero-heading .line:nth-child(3) { padding-left: 1.1em; }
+.hero-heading em { color: var(--red); }
+.hero-tagline { max-width: 40ch; font-size: clamp(1rem, 1.25vw, 1.15rem); color: var(--ink); background: var(--cream); padding: 0.1em 0; box-shadow: 0.5em 0 0 var(--cream), -0.5em 0 0 var(--cream); display: inline; -webkit-box-decoration-break: clone; box-decoration-break: clone; line-height: 1.75; }
+.hero-foot { margin-top: auto; }
+.hero-tagline-wrap { max-width: 44ch; }
+.hero-foot .hero-ctas { margin-top: 1.3rem; }
+.sheet-hero .btn-ghost { background: var(--cream); }
+.sheet-hero .btn-ghost:hover { background: var(--ink); }
+.sheet-hero .eyebrow { background: var(--cream); padding: 0.2em 0.6em 0.2em 0; }
+
+/* Inner-page hero on a sheet: smaller heading than the home page */
+.sheet-hero.page-title .hero-heading, .page-title .hero-heading { font-size: clamp(2.9rem, 7.4vw, 7.4rem); line-height: 0.92; max-width: 13ch; }
+.page-title .hero-heading .line:nth-child(n) { padding-left: 0; }
+.page-title { display: flex; flex-direction: column; align-items: flex-start; height: 100%; }
+.page-title .breadcrumbs { background: var(--cream); padding: 0.2em 0.6em 0.2em 0; margin-bottom: 1rem; }
+
+/* Beat copy inside the title block */
+.beat-heading { font-weight: 350; letter-spacing: -0.025em; }
+.beat-heading em { color: var(--red); }
+
+/* ——— The closing sheet of the home film: the long view ——— */
+.long-view { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; max-width: 82rem; margin: 0 auto; width: 100%; }
+.long-figure { font-family: var(--font-display); font-weight: 300; font-size: clamp(6rem, 19vw, 17rem); line-height: 0.8; margin-top: 0.22em; letter-spacing: -0.06em; }
+.long-figure sup { font-size: 0.34em; color: var(--red); vertical-align: 1.3em; letter-spacing: 0; margin-left: 0.04em; }
+.long-caption { margin-top: 1.4rem; font-size: clamp(1.05rem, 1.5vw, 1.3rem); max-width: 26ch; color: var(--ink-soft); }
+
+/* ——— Schedule: a drawing-set table (clients, services) ——— */
+.schedule { width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.04em; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.schedule caption { caption-side: top; text-align: left; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--red); padding-bottom: 0.7rem; }
+.schedule th { text-align: left; font-weight: 500; font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); padding: 0.5rem 0.7rem 0.5rem 0; border-bottom: 1px solid var(--ink); }
+.schedule td { padding: 0.5rem 0.7rem 0.5rem 0; border-bottom: 1px solid var(--hairline); vertical-align: baseline; }
+.schedule tr:last-child td { border-bottom: 0; }
+.schedule td:first-child { color: var(--red); width: 3.2rem; }
+.schedule td.name { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: -0.01em; color: var(--ink); }
+.schedule td:last-child, .schedule th:last-child { color: var(--ink-soft); text-align: right; padding-right: 0; }
+.schedule.roomy td { padding-top: 0.85rem; padding-bottom: 0.85rem; }
+.schedule.roomy td.name { font-size: clamp(1.3rem, 2.2vw, 1.8rem); }
+
+/* ——— Page flow on paper ——— */
+.page { padding-top: var(--header-h); }
+.page-flow { background: var(--cream); }
+.section.paper { background: transparent; border-top: 1px solid var(--ink); }
+.section.ruled { border-top: 1px solid var(--ink); }
+.section-head h2, .h2, .statement h2 { font-weight: 350; }
+.statement p.accent { color: var(--red); }
+.lede { color: var(--ink); }
+
+.featured, .community-card, .why-card, .route-card, .update-card, .nearby-card, .badge, .tag, .form-success { border-radius: 0; }
+.featured { background: var(--paper); border-color: var(--ink); gap: 0; }
+.featured-body { padding: clamp(1.6rem, 3.5vw, 3rem); border-left: 1px solid var(--ink); }
+.featured-media img { min-height: 380px; }
+.status-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: var(--red); }
+.status-label .dot { border-radius: 0; width: 7px; height: 7px; background: var(--red); box-shadow: none; }
+.spec-list div { border-top-color: var(--rule); }
+.spec-list dt { font-size: 0.64rem; letter-spacing: 0.14em; font-weight: 500; }
+.spec-list dd { font-family: var(--font-display); font-size: 1.25rem; font-weight: 400; }
+
+.community-card { background: var(--paper); border-color: var(--ink); }
+.community-card:hover { transform: none; border-color: var(--ink); }
+.card-media { aspect-ratio: 4 / 5; background: var(--paper-2); border-bottom: 1px solid var(--ink); }
+.card-media .card-line { position: absolute; inset: 0; mix-blend-mode: multiply; }
+.card-media .card-photo { position: absolute; inset: 0; clip-path: inset(0 0 0 0); transition: clip-path 0.7s cubic-bezier(0.7, 0, 0.2, 1); }
+.community-card:hover .card-media .card-photo, .community-card:focus-visible .card-media .card-photo { clip-path: inset(0 0 0 100%); }
+.community-card:hover .card-media img { transform: none; }
+.card-body h3 { font-size: clamp(1.5rem, 2.1vw, 1.9rem); }
+.card-meta { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); }
+.card-desc { color: var(--ink-soft); font-size: 0.97rem; }
+
+.feature { border-top-color: var(--ink); }
+.feature .idx { font-family: var(--font-mono); font-style: normal; font-size: 0.7rem; letter-spacing: 0.14em; color: var(--red); }
+.feature h3 { font-weight: 400; }
+
+.section.pine { background: var(--pine-deep); }
+.section.pine .eyebrow { color: var(--oak); }
+.section.pine .btn-ghost { border-color: rgba(241, 235, 222, 0.6); color: var(--on-dark); }
+.section.pine .btn-ghost:hover { background: var(--on-dark); border-color: var(--on-dark); color: var(--ink); }
+.final-cta h2 { font-weight: 300; letter-spacing: -0.035em; }
+.final-cta p { color: rgba(241, 235, 222, 0.75); }
+
+.proof-bar { border-top-color: var(--ink); border-bottom-color: var(--ink); }
+.proof-item { border-left-color: var(--rule); }
+.proof-figure { font-weight: 300; letter-spacing: -0.03em; }
+.proof-label { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.page-hero { border-bottom-color: var(--ink); }
+.page-hero h1 { font-weight: 300; letter-spacing: -0.035em; }
+.breadcrumbs { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+.route-card { background: var(--paper); border-color: var(--ink); }
+.route-card:hover, .route-card.active { border-color: var(--ink); transform: none; background: var(--ink); color: var(--on-dark); }
+.route-card:hover p, .route-card.active p { color: rgba(241, 235, 222, 0.75); }
+.route-card:hover .link-arrow, .route-card.active .link-arrow { color: var(--on-dark); }
+.route-cards { grid-template-columns: repeat(3, 1fr); }
+.contact-details dt { font-size: 0.64rem; letter-spacing: 0.14em; font-weight: 500; }
+.contact-details dd { font-family: var(--font-display); font-size: 1.35rem; }
+.contact-details a { border-bottom-color: var(--rule); }
+.contact-details a:hover { border-bottom-color: var(--red); }
+
+.field label { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; }
+.field input, .field select, .field textarea { border-radius: 0; background: var(--paper); border-color: var(--rule); }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--ink); box-shadow: inset 0 -2px 0 var(--red); }
+.form-success { border-color: var(--ink); background: var(--paper); }
+.micro { font-size: 0.68rem; letter-spacing: 0.04em; }
+
+.filters { gap: 0; margin-bottom: 0; }
+.filter { border-radius: 0; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; border-color: var(--ink); color: var(--ink); margin-left: -1px; padding: 0.7rem 1.1rem; }
+.filter:hover { color: var(--ink); border-color: var(--ink); background: var(--paper); }
+.filter.active { background: var(--ink); border-color: var(--ink); color: var(--on-dark); }
+
+a:focus-visible, .btn:focus-visible, button:focus-visible { outline-color: var(--red); border-radius: 0; }
+
+/* ——— Drawn figure: a photograph that starts as its drawing and is cut in when it scrolls into view ——— */
+.drawn { position: relative; overflow: hidden; background: var(--cream); }
+.drawn .drawn-line { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; }
+.drawn .drawn-photo { position: relative; display: block; width: 100%; height: 100%; object-fit: cover; clip-path: inset(0 100% 0 0); transition: clip-path 1.5s cubic-bezier(0.7, 0, 0.15, 1) 0.15s; }
+.drawn.in .drawn-photo { clip-path: inset(0 0 0 0); }
+.drawn::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: var(--red); transform: translateX(0); opacity: 0; transition: left 1.5s cubic-bezier(0.7, 0, 0.15, 1) 0.15s, opacity 0.2s linear 0.15s; }
+.drawn.in::after { left: 100%; opacity: 1; }
+
+/* ——— Project sheets (Work) ——— */
+.project { border-top: 1px solid var(--ink); padding: clamp(1.6rem, 4vh, 2.6rem) 0 clamp(3rem, 8vh, 5.5rem); }
+.project.hidden { display: none; }
+.project-head { display: grid; grid-template-columns: minmax(5rem, 9rem) minmax(0, 1fr) auto; gap: clamp(1rem, 3vw, 3rem); align-items: baseline; padding: 0 var(--gutter); }
+.project-no { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.14em; color: var(--red); white-space: nowrap; }
+.project-title { font-size: clamp(2.1rem, 4.6vw, 4.2rem); line-height: 1; font-weight: 300; letter-spacing: -0.035em; }
+.project-tags { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); text-align: right; white-space: nowrap; }
+.project-desc { grid-column: 2 / -1; max-width: 58ch; color: var(--ink-soft); font-size: 1.04rem; margin-top: 0.4rem; }
+.strip { margin-top: clamp(1.4rem, 3.5vh, 2.4rem); overflow: hidden; }
+.strip-track { display: flex; gap: 12px; padding: 0 var(--gutter); height: clamp(300px, 64vh, 700px); width: max-content; will-change: transform; }
+.strip figure { position: relative; height: 100%; flex: none; margin: 0; outline: 1px solid var(--rule); outline-offset: -1px; }
+.strip figure > img, .strip figure .drawn { height: 100%; width: 100%; display: block; object-fit: cover; }
+.strip figcaption { position: absolute; left: 0; bottom: 0; background: var(--paper); border-top: 1px solid var(--ink); border-right: 1px solid var(--ink); font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.4rem 0.65rem; color: var(--ink-soft); z-index: 2; }
+.work-bar { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap; padding: 1.2rem var(--gutter); border-top: 1px solid var(--ink); }
+.work-bar .mono { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+
+/* ——— Archive row (Studio) ——— */
+.archive { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.archive figure { margin: 0; }
+.archive img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; outline: 1px solid var(--rule); outline-offset: -1px; filter: saturate(0.82); }
+.archive figcaption { font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); margin-top: 0.6rem; }
+
+/* ——— Footer ——— */
+.site-footer { border-top: 1px solid var(--ink); }
+.footer-grid { grid-template-columns: 1.6fr 1fr 1.2fr 1.2fr; }
+.footer-brand .tagline { color: var(--red); font-size: 1.4rem; }
+.footer-col h3 { font-size: 0.64rem; letter-spacing: 0.16em; font-weight: 500; color: var(--red); }
+.footer-col li { color: var(--ink-soft); }
+.footer-col .footer-hours { color: var(--ink-mute); }
+.footer-col li + .footer-hours { margin-top: 0.4rem; }
+.footer-legal { border-top-color: var(--rule); display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.08em; }
+.footer-social { display: flex; gap: 1.4rem; }
+.footer-social a { text-decoration: none; }
+.footer-social a:hover { color: var(--red); }
+
+@media (max-width: 1100px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .route-cards { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 860px) {
+  .site-nav { background: var(--cream); padding-top: 5.5rem; }
+  .site-nav a { font-family: var(--font-display); font-size: 2.4rem; letter-spacing: -0.02em; text-transform: none; color: var(--ink); }
+  .site-nav a .nav-no { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; vertical-align: 0.9em; }
+  .site-nav .header-cta { font-size: 0.74rem; color: var(--on-dark); }
+  .brand-tag { display: none; }
+  .hero-heading { font-size: clamp(3.2rem, min(19vw, 11.5vh), 5.6rem); }
+  .page-title .hero-heading { font-size: clamp(2.5rem, 12vw, 4rem); }
+  .long-view { grid-template-columns: 1fr; gap: 1.6rem; }
+  .long-figure { font-size: clamp(5rem, 30vw, 8rem); }
+  .long-caption { margin-top: 0.8rem; }
+  .long-view .schedule td { padding-top: 0.32rem; padding-bottom: 0.32rem; font-size: 0.72rem; }
+  .long-view .schedule td.name { font-size: 1rem; }
+  .featured-body { border-left: 0; border-top: 1px solid var(--ink); }
+  .route-cards { grid-template-columns: 1fr; }
+  .project-head { grid-template-columns: 1fr auto; }
+  .project-no { grid-column: 1; }
+  .project-tags { grid-column: 2; grid-row: 1; white-space: normal; }
+  .project-title { grid-column: 1 / -1; }
+  .project-desc { grid-column: 1 / -1; }
+  .strip { overflow-x: auto; scroll-snap-type: x proximity; scroll-padding-left: var(--gutter); -webkit-overflow-scrolling: touch; }
+  .strip-track { height: clamp(260px, 52vh, 440px); gap: 8px; }
+  .strip figure { scroll-snap-align: start; }
+  .archive { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawn .drawn-photo { clip-path: none; transition: none; }
+  .drawn::after { display: none; }
+  .card-media .card-photo { transition: none; }
+}

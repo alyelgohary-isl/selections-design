@@ -1,0 +1,79 @@
+---
+/* Sheet: one drawing sheet inside a <DrawnFilm>. See DrawnFilm.astro for the whole picture.
+
+   panels: each is a photo in public/assets/img/<src>.webp with its drawing <src>-line.webp
+   (both from tools/draw.sh). One panel fills the stage; several stand side by side like a
+   run of doors. `portrait` names a second pair used on tall screens, so a phone gets a
+   portrait photograph instead of a sliver of a landscape one.
+   reveal: how the drawing becomes the room. saw (a cut travelling left to right), doors
+   (opening from the centre), drawer (rising from the floor), skyline (four door-widths dropping).
+   enter: how this sheet arrives over the previous one. none (first sheet), rise, slide, doors.
+   Slots: default is the title-block copy; "hero" is copy shown at load on the first sheet.
+   With no panels the sheet is plain paper and the default slot is laid out on it. */
+import { url } from "../../lib/url";
+
+interface Panel {
+  src: string;
+  alt: string;
+  /** object-position on wide screens / on tall screens */
+  pos?: string;
+  portrait?: string;
+  portraitPos?: string;
+}
+interface Props {
+  id: string;
+  /** Sheet number in the title block and progress chip, e.g. "A-01" */
+  no: string;
+  /** Drawing title, e.g. "Kitchen · Elevation" */
+  title: string;
+  units?: number;
+  panels?: Panel[];
+  reveal?: "saw" | "doors" | "drawer" | "skyline";
+  enter?: "none" | "rise" | "slide" | "doors";
+}
+const { id, no, title, units = 1.2, panels = [], reveal = "saw", enter = "none" } = Astro.props;
+const hasHero = Astro.slots.has("hero");
+const plain = panels.length === 0;
+const img = (name: string) => url(`assets/img/${name}.webp`);
+const span = 1 + (panels.length - 1) * 0.4;
+---
+<section
+  class:list={["sheet", `enter-${enter}`, !plain && `reveal-${reveal}`, panels.length > 1 && "is-multi", plain && "is-plain", hasHero && "has-hero"]}
+  data-sheet data-id={id} data-no={no} data-units={units} aria-label={title}
+>
+  <div class="sheet-ground"></div>
+  {!plain && (
+    <div class="sheet-panels" style={`--n:${panels.length}; --span:${span}`}>
+      {panels.map((p, i) => (
+        <div class="panel" style={`--i:${i}; --pos:${p.pos ?? "50% 50%"}; --pos-p:${p.portraitPos ?? p.pos ?? "50% 50%"}`}>
+          <div class="panel-line" aria-hidden="true">
+            <picture>
+              {p.portrait && <source media="(max-aspect-ratio: 4/5)" srcset={img(`${p.portrait}-line`)} />}
+              <img src={img(`${p.src}-line`)} alt="" decoding="async" />
+            </picture>
+          </div>
+          <div class="dims" aria-hidden="true">
+            <span class="dim dim-h"><i></i><b data-dim="w"></b></span>
+            {i === panels.length - 1 && <span class="dim dim-v"><i></i><b data-dim="h"></b></span>}
+          </div>
+          <div class="panel-photo">
+            <picture>
+              {p.portrait && <source media="(max-aspect-ratio: 4/5)" srcset={img(p.portrait)} />}
+              <img src={img(p.src)} alt={p.alt} decoding="async" />
+            </picture>
+          </div>
+          <i class="panel-saw" aria-hidden="true"></i>
+        </div>
+      ))}
+    </div>
+  )}
+  {hasHero && <div class="sheet-hero"><slot name="hero" /></div>}
+  {plain ? (
+    <div class="sheet-plain"><slot /></div>
+  ) : (
+    <div class="tb">
+      <div class="tb-head"><span class="tb-no">{no}</span><span class="tb-title">{title}</span></div>
+      <div class="tb-body"><slot /></div>
+    </div>
+  )}
+</section>

@@ -1,0 +1,274 @@
+---
+/* DrawnFilm: a full-viewport stack of drawing sheets driven by scroll.
+
+   <Layout variant="film" …>
+     <DrawnFilm units={7.4} loader="Selections">
+       <Sheet id="kitchen" no="A-01" title="Kitchen · Elevation" units={1.6} reveal="saw" panels={[{ src: "kitchen", alt: "…" }]}>
+         <Fragment slot="hero">…h1 and CTAs, shown at load, fades as the scroll starts…</Fragment>
+         …title-block copy for this sheet…
+       </Sheet>
+       <Sheet … enter="rise" reveal="doors">…</Sheet>
+     </DrawnFilm>
+     <main class="page-flow">…</main>
+   </Layout>
+
+   Each sheet is the client's photograph and an ink drawing made from that same photograph
+   (tools/draw.sh), stacked pixel for pixel. Scrolling draws the dimension strings, then cuts
+   from the drawing to the room. The next sheet arrives over it like a drawer or a pair of doors.
+
+   Unlike the frame-sequence ScrollFilm this is all live layers: two images per sheet, no frames,
+   sharp at any size. The stage is position: sticky inside the runway, so the page simply
+   continues underneath and several can live on one site (one per page keeps the scroll honest).
+
+   - units: the sum of the sheets' units. The runway is 100vh per unit (70vh on small screens).
+   - loader: brand name on the loading sheet; false to skip it.
+   QA: ?p=0.42 jumps to that progress, the same hook tools/shoot.mjs uses. */
+interface Props {
+  units: number;
+  loader?: string | false;
+  /** Total sheet count shown in the progress chip; defaults to counting the sheets at runtime */
+  hint?: string;
+}
+const { units, loader = false, hint = "Scroll to cut" } = Astro.props;
+const vars = `--film-runway: ${Math.round(units * 100)}vh; --film-runway-mobile: ${Math.round(units * 74)}vh`;
+---
+<div class="drawn-film" data-drawn-film style={vars}>
+  {loader && (
+    <div class="film-loader" aria-hidden="true">
+      <div class="loader-inner">
+        <span class="loader-brand">{loader}</span>
+        <div class="loader-dim"><i class="loader-bar"></i></div>
+        <span class="loader-note">Setting out <b class="loader-percent">0</b>%</span>
+      </div>
+    </div>
+  )}
+  <div class="film-runway">
+    <div class="film-stage">
+      <slot />
+      <div class="sheet-frame" aria-hidden="true"></div>
+      <div class="film-progress" aria-hidden="true">
+        <span class="fp-no">A-01</span>
+        <span class="fp-track"><i></i></span>
+        <span class="fp-of"></span>
+      </div>
+      <span class="scroll-cue" aria-hidden="true">{hint}</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  import "./drawn-film.js";
+</script>
+
+<style is:global>
+  /* Loading sheet */
+  .film-loader {
+    position: fixed; inset: 0; z-index: 100;
+    background: var(--cream);
+    display: grid; place-items: center;
+    transition: opacity 0.6s ease, visibility 0.6s;
+  }
+  .film-loader.done { opacity: 0; visibility: hidden; }
+  .loader-inner { display: grid; justify-items: center; gap: 1.3rem; }
+  .loader-brand { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.6rem, 6vw, 4.4rem); letter-spacing: -0.02em; }
+  .loader-dim { width: min(280px, 62vw); height: 9px; position: relative; border-left: 1px solid var(--ink); border-right: 1px solid var(--ink); }
+  .loader-dim::before { content: ""; position: absolute; left: 0; right: 0; top: 4px; height: 1px; background: var(--hairline); }
+  .loader-bar { position: absolute; left: 0; top: 4px; height: 1px; width: 0%; background: var(--red); transition: width 0.25s ease; }
+  .loader-note { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+  .loader-note b { font-weight: 500; font-variant-numeric: tabular-nums; }
+
+  /* Runway and stage */
+  .drawn-film { position: relative; }
+  .film-runway { height: var(--film-runway); position: relative; }
+  .film-stage {
+    position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
+    background: var(--cream);
+  }
+
+  /* A sheet. The custom properties are driven by drawn-film.js; their defaults are the
+     finished state, so with no script (or reduced motion) every sheet shows its room. */
+  .sheet {
+    --enter: 1; --draw: 1; --tb: 1; --reveal: 1; --zoom: 1; --hero: 0;
+    position: absolute; inset: 0; visibility: hidden;
+    will-change: transform, clip-path;
+  }
+  .sheet.is-on { visibility: visible; }
+  .sheet-ground {
+    position: absolute; inset: 0; background-color: var(--cream);
+    /* drafting grid: fine lines every 32px, a heavier one every 160px */
+    background-image:
+      linear-gradient(rgba(28, 23, 19, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(28, 23, 19, 0.07) 1px, transparent 1px),
+      linear-gradient(rgba(28, 23, 19, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(28, 23, 19, 0.035) 1px, transparent 1px);
+    background-size: 160px 160px, 160px 160px, 32px 32px, 32px 32px;
+    background-position: 0 var(--header-h);
+  }
+
+  /* How a sheet arrives over the one before it */
+  .sheet.enter-rise { transform: translate3d(0, calc((1 - var(--enter)) * 100%), 0); }
+  .sheet.enter-rise::before {   /* the drawer front's top edge and pull */
+    content: ""; position: absolute; left: 0; right: 0; top: var(--header-h); height: 1px; background: var(--ink); z-index: 6;
+    opacity: calc(1 - var(--tb));
+  }
+  .sheet.enter-slide { transform: translate3d(calc((1 - var(--enter)) * 100%), 0, 0); }
+  .sheet.enter-slide::before {
+    content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 1px; background: var(--ink); z-index: 6;
+    opacity: calc(1 - var(--tb));
+  }
+  .sheet.enter-doors { clip-path: inset(0 calc((1 - var(--enter)) * 50%)); }
+
+  /* Panels: one full-bleed frame, or several side by side like a run of doors */
+  .sheet-panels {
+    position: absolute; inset: var(--header-h) 0 0 0;
+    display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: 0;
+  }
+  .is-multi .sheet-panels { gap: 12px; padding: 0 12px 12px; inset: calc(var(--header-h) + 12px) 0 0 0; }
+  .panel {
+    position: relative; overflow: hidden; min-width: 0; min-height: 0;
+    /* each panel's own reveal, staggered across the run */
+    --r: clamp(0, calc(var(--reveal) * var(--span) - var(--i) * 0.4), 1);
+  }
+  .is-multi .panel { outline: 1px solid var(--rule); outline-offset: -1px; }
+  .panel-line, .panel-photo, .panel-line picture, .panel-photo picture { position: absolute; inset: 0; display: block; }
+  .panel-line img, .panel-photo img {
+    width: 100%; height: 100%; object-fit: cover; object-position: var(--pos);
+    transform: scale(var(--zoom)); transform-origin: var(--pos);
+  }
+  .panel-line { mix-blend-mode: multiply; opacity: calc(1 - var(--hero) * 0.5); }
+  .panel-photo { will-change: clip-path; z-index: 2; }   /* above the dimension strings: the cut removes them with the drawing */
+
+  .reveal-saw .panel-photo { clip-path: inset(0 calc((1 - var(--r)) * 100%) 0 0); }
+  .reveal-doors .panel-photo { clip-path: inset(0 calc((1 - var(--r)) * 50%)); }
+  .reveal-drawer .panel-photo { clip-path: inset(calc((1 - var(--r)) * 100%) 0 0 0); }
+  .reveal-skyline .panel-photo {   /* four door-width strips dropping in turn */
+    --h0: calc(clamp(0, calc(var(--r) * 1.9), 1) * 100%);
+    --h1: calc(clamp(0, calc(var(--r) * 1.9 - 0.3), 1) * 100%);
+    --h2: calc(clamp(0, calc(var(--r) * 1.9 - 0.6), 1) * 100%);
+    --h3: calc(clamp(0, calc(var(--r) * 1.9 - 0.9), 1) * 100%);
+    clip-path: polygon(0 0, 0 var(--h0), 25% var(--h0), 25% 0, 25% var(--h1), 50% var(--h1), 50% 0, 50% var(--h2), 75% var(--h2), 75% 0, 75% var(--h3), 100% var(--h3), 100% 0);
+  }
+
+  /* The cut line riding the edge of the reveal, in drafting red */
+  .panel-saw { position: absolute; pointer-events: none; z-index: 3; opacity: clamp(0, calc(min(var(--r), 1 - var(--r)) * 30), 1); }
+  .reveal-saw .panel-saw { top: 0; bottom: 0; width: 2px; left: calc(var(--r) * 100%); background: var(--red); }
+  .reveal-drawer .panel-saw { left: 0; right: 0; height: 2px; top: calc((1 - var(--r)) * 100%); background: var(--red); }
+  .reveal-doors .panel-saw { inset: 0; }
+  .reveal-doors .panel-saw::before, .reveal-doors .panel-saw::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--red); }
+  .reveal-doors .panel-saw::before { left: calc((1 - var(--r)) * 50%); }
+  .reveal-doors .panel-saw::after { right: calc((1 - var(--r)) * 50%); }
+  .reveal-skyline .panel-saw { display: none; }
+
+  /* Dimension strings: part of the drawing, so the cut removes them with it */
+  .dims { position: absolute; inset: 0; z-index: 1; pointer-events: none; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.1em; color: var(--ink); opacity: calc(1 - var(--hero) * 0.4); }
+  .dim { position: absolute; }
+  .dim i { position: absolute; background: var(--ink); }
+  .dim::before, .dim::after { content: ""; position: absolute; width: 11px; height: 1px; background: var(--ink); transform: rotate(-45deg); opacity: clamp(0, calc(var(--draw) * 6), 1); }
+  .dim b { position: absolute; font-weight: 400; background: var(--cream); padding: 0 0.5em; white-space: nowrap; opacity: clamp(0, calc(var(--draw) * 3 - 1.4), 1); }
+  .dim-h { left: 7%; right: 7%; top: clamp(1.4rem, 5vh, 2.6rem); height: 1px; }
+  .dim-h i { inset: 0; transform: scaleX(clamp(0, calc(var(--draw) * 1.5), 1)); transform-origin: left center; }
+  .dim-h::before { left: -5px; top: 0; }
+  .dim-h::after { right: -5px; top: 0; opacity: clamp(0, calc(var(--draw) * 6 - 3.6), 1); }
+  .dim-h b { left: 50%; top: 50%; transform: translate(-50%, -50%); }
+  .dim-v { top: 16%; bottom: 14%; right: clamp(1.4rem, 3.4vw, 2.8rem); width: 1px; }
+  .dim-v i { inset: 0; transform: scaleY(clamp(0, calc(var(--draw) * 1.5 - 0.3), 1)); transform-origin: center top; }
+  .dim-v::before { left: -5px; top: 0; }
+  .dim-v::after { left: -5px; bottom: 0; opacity: clamp(0, calc(var(--draw) * 6 - 4.6), 1); }
+  .dim-v b { left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-90deg); }
+
+  /* Copy shown at load on the first sheet */
+  .sheet-hero {
+    position: absolute; z-index: 4; left: var(--gutter); right: var(--gutter);
+    top: calc(var(--header-h) + clamp(2rem, 7vh, 4.6rem)); bottom: clamp(1.4rem, 5vh, 3rem);
+    display: flex; flex-direction: column; align-items: flex-start;
+    opacity: var(--hero); visibility: visible;
+    transform: translate3d(0, calc((1 - var(--hero)) * -28px), 0);
+    pointer-events: none;
+  }
+  .sheet-hero > * { pointer-events: auto; }
+  .sheet:not(.is-on) .sheet-hero, .sheet.hero-gone .sheet-hero { visibility: hidden; }
+
+  /* Title block: the sheet's copy, docked in the corner like a drawing's title block */
+  .tb {
+    position: absolute; z-index: 5; left: var(--gutter); bottom: clamp(1.4rem, 5vh, 3rem);
+    width: clamp(19rem, 31vw, 28rem); max-width: calc(100% - 2 * var(--gutter));
+    background: var(--paper); border: 1px solid var(--ink);
+    opacity: var(--tb);
+    transform: translate3d(0, calc((1 - var(--tb)) * 26px), 0);
+  }
+  .tb-head {
+    display: grid; grid-template-columns: auto 1fr; border-bottom: 1px solid var(--ink);
+    font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .tb-no { padding: 0.55rem 0.8rem; border-right: 1px solid var(--ink); color: var(--red); font-weight: 500; }
+  .tb-title { padding: 0.55rem 0.8rem; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tb-body { padding: clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2vw, 1.5rem) clamp(1.1rem, 2.2vw, 1.6rem); }
+  .tb-body .beat-heading { font-size: clamp(1.7rem, 2.7vw, 2.6rem); line-height: 1.04; }
+  .tb-body .beat-body { margin-top: 0.7rem; font-size: 0.98rem; color: var(--ink-soft); max-width: none; }
+  .tb-body .link-arrow { display: inline-block; margin-top: 0.9rem; }
+  .tb a { pointer-events: auto; }
+
+  /* A sheet with no photograph: copy on the paper itself */
+  .sheet-plain {
+    position: absolute; inset: var(--header-h) 0 0 0; z-index: 2;
+    display: grid; align-content: center; padding: clamp(1.5rem, 5vh, 4rem) var(--gutter);
+  }
+  .sheet-plain [data-in] {
+    opacity: clamp(0, calc(var(--draw) * 4 - var(--d, 0)), 1);
+    transform: translate3d(0, calc((1 - clamp(0, calc(var(--draw) * 4 - var(--d, 0)), 1)) * 30px), 0);
+  }
+
+  /* Sheet border, progress chip, scroll cue: fixed furniture of the stage */
+  .sheet-frame {
+    position: absolute; inset: calc(var(--header-h) + 10px) 10px 10px; z-index: 20; pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.5); mix-blend-mode: difference;
+  }
+  .film-progress {
+    position: absolute; z-index: 21; right: clamp(1.4rem, 3.4vw, 2.8rem); bottom: clamp(1.4rem, 5vh, 3rem);
+    display: flex; align-items: center; gap: 0.7rem;
+    font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    background: var(--paper); border: 1px solid var(--ink); padding: 0.5rem 0.75rem; color: var(--ink-soft);
+  }
+  .fp-no { color: var(--ink); font-weight: 500; }
+  .fp-track { position: relative; width: clamp(3rem, 7vw, 6rem); height: 1px; background: var(--hairline); }
+  .fp-track i { position: absolute; inset: 0; background: var(--red); transform: scaleX(var(--p, 0)); transform-origin: left center; }
+  .scroll-cue {
+    position: absolute; z-index: 21; left: 50%; bottom: clamp(1.4rem, 5vh, 3rem); transform: translateX(-50%);
+    font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft);
+    opacity: var(--cue, 1); transition: opacity 0.4s; pointer-events: none;
+  }
+  .scroll-cue::after { content: ""; display: block; width: 1px; height: 22px; margin: 0.5rem auto 0; background: var(--red); animation: cue 1.8s ease-in-out infinite; transform-origin: top; }
+  @keyframes cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1) translateY(22px); opacity: 0; } }
+
+  /* Tall, narrow screens: the title block takes the bottom edge; a run of doors stacks */
+  @media (max-width: 860px) {
+    .film-runway { height: var(--film-runway-mobile); }
+    .tb { left: 12px; right: 12px; bottom: 12px; width: auto; max-width: none; }
+    .tb-body .beat-heading { font-size: clamp(1.45rem, 6.4vw, 2rem); }
+    .tb-body .beat-body { font-size: 0.92rem; margin-top: 0.5rem; }
+    .sheet-frame { inset: calc(var(--header-h) + 6px) 6px 6px; }
+    .film-progress { right: 12px; bottom: auto; top: calc(var(--header-h) + 12px); padding: 0.4rem 0.6rem; }
+    .fp-track { display: none; }
+    .scroll-cue { display: none; }
+    .dim-v { display: none; }
+    .dim-h { top: 3.4rem; }
+    .sheet-hero { top: calc(var(--header-h) + 3.4rem); bottom: 14px; left: 14px; right: 14px; }
+    .sheet-plain { align-content: start; padding-top: 3.6rem; }
+  }
+  @media (max-aspect-ratio: 4/5) {
+    .panel-line img, .panel-photo img { object-position: var(--pos-p); transform-origin: var(--pos-p); }
+    .is-multi .sheet-panels { grid-template-columns: 1fr; grid-template-rows: repeat(var(--n), 1fr); gap: 8px; padding: 0 8px 8px; inset: calc(var(--header-h) + 8px) 0 0 0; }
+    .is-multi .dim-h { top: 1.2rem; }
+  }
+
+  /* No motion: every sheet is a plain full-height block showing its room, in page order */
+  .drawn-film.is-static .film-runway { height: auto; }
+  .drawn-film.is-static .film-stage { position: static; height: auto; overflow: visible; }
+  .drawn-film.is-static .sheet { position: relative; inset: auto; height: 100svh; visibility: visible; transform: none; clip-path: none; }
+  .drawn-film.is-static .sheet.has-hero { --reveal: 0; --hero: 1; }
+  .drawn-film.is-static .sheet.has-hero .tb { display: none; }
+  .drawn-film.is-static .sheet-frame, .drawn-film.is-static .film-progress, .drawn-film.is-static .scroll-cue { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-cue::after { animation: none; }
+  }
+</style>

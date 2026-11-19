@@ -1,0 +1,225 @@
+---
+/* ProcessDrawing: a pinned, full-viewport shop drawing that builds itself in four steps as the
+   page scrolls: linework, dimensions, materials, the room it is fitted to.
+
+   The drawing is an illustration of a wall unit, not a client project, so its dimensions are
+   its own. Each group listens to one of four 0..1 properties set by process-drawing.js:
+     --p1 lines draw (per-element delay --d)   --p2 dimension strings
+     --p3 materials fill in                     --p4 the room: walls, scribes, light
+   With no script or reduced motion every property is 1 and the steps are listed in full. */
+interface Step { no: string; title: string; body: string }
+interface Props { steps: Step[] }
+const { steps } = Astro.props;
+
+/* door-swing chevrons: [x of the handle side, x of the hinge side, top, bottom] */
+const swings = [
+  [420, 200, 164, 470], [420, 200, 470, 760],
+  [610, 420, 164, 334], [610, 800, 164, 334], [990, 800, 164, 334], [990, 1180, 164, 334],
+  [800, 610, 522, 760], [800, 990, 522, 760],
+  [1180, 1400, 640, 760],
+];
+---
+<div class="process-runway" data-process>
+  <section class="process-stage" aria-label="How a piece gets made">
+    <div class="process-ground" aria-hidden="true"></div>
+    <header class="process-head">
+      <span class="eyebrow">Process · Sheet A-201</span>
+      <span class="process-count mono" aria-hidden="true"><b>01</b> / 04</span>
+    </header>
+
+    <div class="process-drawing">
+      <svg viewBox="0 0 1600 900" role="img" aria-label="Elevation drawing of a wall unit: a tall pantry, upper cabinets, base cabinets under a stone counter and an open display tower. It gains dimensions, then materials, then the room around it." preserveAspectRatio="xMidYMid meet">
+        {/* Materials (under the linework) */}
+        <g class="el-fills">
+          <rect class="fill" style="--d:0" x="200" y="150" width="1200" height="14" fill="#f1ead9" />
+          <rect class="fill" style="--d:0.05" x="200" y="164" width="220" height="596" fill="#f1ead9" />
+          <rect class="fill" style="--d:0.15" x="420" y="164" width="760" height="170" fill="#f1ead9" />
+          <rect class="fill" style="--d:0.25" x="420" y="334" width="760" height="166" fill="#e6e1d8" />
+          <path class="fill vein" style="--d:0.3" d="M470 500 C520 430 560 440 610 380 S720 350 760 334 M880 500 C900 450 960 440 1010 400 S1100 380 1150 334 M610 380 C660 400 700 440 730 500" />
+          <rect class="fill" style="--d:0.35" x="412" y="500" width="776" height="22" fill="#d6d1c8" />
+          <rect class="fill" style="--d:0.45" x="420" y="522" width="760" height="238" fill="#2a211b" />
+          <rect class="fill" style="--d:0.55" x="1180" y="164" width="220" height="596" fill="#cfb086" />
+          <rect class="fill" style="--d:0.6" x="1194" y="178" width="192" height="462" fill="#b3936a" />
+          <rect class="fill" style="--d:0.65" x="212" y="760" width="1176" height="20" fill="#1c1713" />
+        </g>
+
+        {/* The room: step 4 */}
+        <g class="el-room">
+          <rect x="420" y="334" width="760" height="26" fill="url(#glow)" />
+          <rect x="1194" y="178" width="192" height="30" fill="url(#glow)" />
+          <path class="room-line" d="M60 110 H1540 M190 110 V780 M1410 110 V780" />
+          <path class="room-hatch" d="M60 780 l-18 22 M120 780 l-18 22 M180 780 l-18 22 M1420 780 l-18 22 M1480 780 l-18 22 M1540 780 l-18 22" />
+          <rect class="scribe" x="190" y="164" width="10" height="616" />
+          <rect class="scribe" x="1400" y="164" width="10" height="616" />
+          <rect class="scribe" x="200" y="110" width="1200" height="40" opacity="0.16" />
+          {/* things on the shelves */}
+          <g class="objects">
+            <path d="M1232 290 v-52 q0 -14 12 -14 t12 14 v52 z M1300 290 h56 v-34 h-56 z M1322 256 v-22" />
+            <path d="M1226 410 h70 v-12 h-70 z M1232 398 h58 v-12 h-58 z M1330 410 a18 22 0 1 1 0.1 0 z" />
+            <path d="M1240 530 v-60 h18 v60 z M1264 530 v-74 h14 v74 z M1284 530 v-52 h20 v52 z M1336 530 q-16 -40 8 -58 q24 18 8 58 z" />
+            <path d="M700 500 v-40 h22 v40 z M711 460 q-26 -34 -6 -62 M711 460 q4 -40 22 -52 M711 460 q-4 -30 -30 -32" />
+          </g>
+        </g>
+
+        {/* Linework: step 1 */}
+        <g class="el-lines">
+          <path class="ln" style="--d:0" d="M60 780 H1540" pathLength="1" />
+          <path class="ln" style="--d:0.05" d="M200 780 V150 H1400 V780" pathLength="1" />
+          <path class="ln" style="--d:0.1" d="M200 164 H1400" pathLength="1" />
+          <path class="ln" style="--d:0.14" d="M420 164 V760 M1180 164 V760" pathLength="1" />
+          <path class="ln" style="--d:0.2" d="M420 334 H1180" pathLength="1" />
+          <path class="ln" style="--d:0.24" d="M412 500 H1188 V522 H412 Z" pathLength="1" />
+          <path class="ln" style="--d:0.3" d="M212 760 H1388" pathLength="1" />
+          <path class="ln" style="--d:0.34" d="M200 470 H420" pathLength="1" />
+          <path class="ln" style="--d:0.38" d="M610 164 V334 M800 164 V334 M990 164 V334" pathLength="1" />
+          <path class="ln on-dark" style="--d:0.44" d="M610 522 V760 M800 522 V760 M990 522 V760" pathLength="1" />
+          <path class="ln on-dark" style="--d:0.5" d="M420 590 H610 M420 675 H610 M990 590 H1180 M990 675 H1180" pathLength="1" />
+          <path class="ln" style="--d:0.54" d="M1194 178 H1386 V640 H1194 Z" pathLength="1" />
+          <path class="ln" style="--d:0.58" d="M1194 290 H1386 M1194 410 H1386 M1194 530 H1386" pathLength="1" />
+          <path class="ln" style="--d:0.62" d="M1180 640 H1400" pathLength="1" />
+          {/* handles */}
+          <path class="ln hw" style="--d:0.68" d="M404 400 V452 M404 488 V540 M594 296 V322 M626 296 V322 M974 296 V322 M1006 296 V322 M1196 660 V700" pathLength="1" />
+          <path class="ln hw on-dark" style="--d:0.72" d="M786 540 V574 M814 540 V574 M490 556 H540 M490 632 H540 M490 717 H540 M1060 556 H1110 M1060 632 H1110 M1060 717 H1110" pathLength="1" />
+          {/* door swings */}
+          {swings.map(([hx, kx, t, b], i) => (
+            <path class={`sw${t >= 522 && hx !== 1180 && kx !== 200 ? " on-dark" : ""}`} style={`--d:${(0.74 + i * 0.012).toFixed(3)}`} d={`M${hx} ${t} L${kx} ${(t + b) / 2} L${hx} ${b}`} />
+          ))}
+        </g>
+
+        {/* Dimension strings: step 2 */}
+        <g class="el-dims">
+          <path class="dm" style="--d:0" d="M200 846 H1400 M200 838 V854 M1400 838 V854" pathLength="1" />
+          <path class="dm" style="--d:0.12" d="M200 814 H1400 M200 806 V822 M420 806 V822 M1180 806 V822 M1400 806 V822" pathLength="1" />
+          <path class="dm" style="--d:0.24" d="M132 150 V780 M124 150 H140 M124 780 H140" pathLength="1" />
+          <path class="dm" style="--d:0.36" d="M1468 500 V780 M1460 500 H1476 M1460 780 H1476" pathLength="1" />
+          <g class="dt" style="--d:0.3">
+            <text x="800" y="850" text-anchor="middle"><tspan class="knock">3660</tspan></text>
+            <text x="310" y="818" text-anchor="middle"><tspan class="knock">670</tspan></text>
+            <text x="800" y="818" text-anchor="middle"><tspan class="knock">2320</tspan></text>
+            <text x="1290" y="818" text-anchor="middle"><tspan class="knock">670</tspan></text>
+            <text x="132" y="470" text-anchor="middle" transform="rotate(-90 132 465)"><tspan class="knock">2440</tspan></text>
+            <text x="1468" y="645" text-anchor="middle" transform="rotate(-90 1468 640)"><tspan class="knock">915</tspan></text>
+          </g>
+          <g class="dt" style="--d:0.6">
+            <text x="60" y="76" class="title">ELEVATION A · WALL UNIT</text>
+            <text x="1540" y="76" class="title" text-anchor="end">SCALE 1:20 · MM</text>
+          </g>
+        </g>
+
+        {/* Callouts that arrive with the room */}
+        <g class="el-notes">
+          <path d="M195 320 L96 268" /><text x="60" y="258">SCRIBE TO WALL</text>
+          <path d="M1405 320 L1498 268" /><text x="1540" y="258" text-anchor="end">SCRIBE TO WALL</text>
+          <text x="60" y="806">FIN. FLOOR</text>
+        </g>
+
+        <defs>
+          <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f6d9a0" stop-opacity="0.85" />
+            <stop offset="1" stop-color="#f6d9a0" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <ol class="process-steps">
+      {steps.map((s, i) => (
+        <li class:list={[i === 0 && "is-active"]} data-step={i}>
+          <span class="step-no">{s.no}</span>
+          <h3>{s.title}</h3>
+          <p>{s.body}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+</div>
+
+<script>
+  import "./process-drawing.js";
+</script>
+
+<style is:global>
+  .process-runway { height: 460vh; position: relative; --p: 1; --p1: 1; --p2: 1; --p3: 1; --p4: 1; }
+  .process-stage {
+    position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
+    display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+    padding-top: var(--header-h); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);
+  }
+  .process-ground {
+    position: absolute; inset: 0; z-index: 0; background-color: var(--cream);
+    background-image:
+      linear-gradient(rgba(28, 23, 19, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(28, 23, 19, 0.07) 1px, transparent 1px),
+      linear-gradient(rgba(28, 23, 19, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(28, 23, 19, 0.035) 1px, transparent 1px);
+    background-size: 160px 160px, 160px 160px, 32px 32px, 32px 32px;
+  }
+  .process-head { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; padding: 1.1rem var(--gutter) 0; }
+  .process-count { font-size: 0.72rem; letter-spacing: 0.14em; color: var(--ink-soft); }
+  .process-count b { color: var(--red); font-weight: 500; }
+
+  .process-drawing { position: relative; z-index: 1; min-height: 0; }
+  .process-drawing svg { position: absolute; inset: 0.2rem var(--gutter) 0.8rem; width: calc(100% - 2 * var(--gutter)); height: calc(100% - 1rem); overflow: visible; }
+
+  /* step 1: lines */
+  .process-drawing .ln, .process-drawing .dm {
+    fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: square; vector-effect: non-scaling-stroke;
+    stroke-dasharray: 1; stroke-dashoffset: calc(1 - clamp(0, calc((var(--p1) - var(--d)) * 4.5), 1));
+  }
+  .process-drawing .ln.hw { stroke-width: 3; }
+  .process-drawing .sw {
+    fill: none; stroke: var(--ink); stroke-width: 1; stroke-dasharray: 7 6; vector-effect: non-scaling-stroke;
+    opacity: calc(clamp(0, calc((var(--p1) - var(--d)) * 8), 1) * (0.5 - var(--p4) * 0.5));
+  }
+  /* on the walnut base the ink disappears, so those lines turn to the pale oak as the fill arrives */
+  .process-drawing .on-dark { stroke: color-mix(in srgb, var(--ink), var(--oak) calc(clamp(0, calc((var(--p3) - 0.45) * 6), 1) * 100%)); }
+
+  /* step 2: dimensions */
+  .process-drawing .dm { stroke: var(--red); stroke-width: 1.2; stroke-dashoffset: calc(1 - clamp(0, calc((var(--p2) - var(--d)) * 3.5), 1)); }
+  .process-drawing .dt { opacity: clamp(0, calc((var(--p2) - var(--d)) * 5), 1); }
+  .process-drawing text { font-family: var(--font-mono); font-size: 17px; letter-spacing: 0.08em; fill: var(--red); paint-order: stroke; stroke: var(--cream); stroke-width: 9px; stroke-linejoin: round; }
+  .process-drawing text.title { fill: var(--ink-soft); font-size: 15px; letter-spacing: 0.16em; }
+
+  /* step 3: materials */
+  .process-drawing .fill { opacity: clamp(0, calc((var(--p3) - var(--d)) * 5), 1); }
+  .process-drawing .fill.vein { fill: none; stroke: #b9b2a6; stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+
+  /* step 4: the room */
+  .process-drawing .el-room { opacity: var(--p4); }
+  .process-drawing .room-line { fill: none; stroke: var(--ink); stroke-width: 3.5; vector-effect: non-scaling-stroke; }
+  .process-drawing .room-hatch { fill: none; stroke: var(--ink); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .process-drawing .scribe { fill: var(--red); }
+  .process-drawing .objects { fill: none; stroke: var(--ink); stroke-width: 1.4; vector-effect: non-scaling-stroke; opacity: clamp(0, calc(var(--p4) * 3 - 1.4), 1); }
+  .process-drawing .el-notes { opacity: clamp(0, calc(var(--p4) * 3 - 1), 1); }
+  .process-drawing .el-notes path { fill: none; stroke: var(--red); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .process-drawing .el-notes text { font-size: 14px; letter-spacing: 0.14em; }
+
+  /* The four steps: a revision table along the bottom edge of the sheet */
+  .process-steps { position: relative; z-index: 1; list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); background: var(--paper); }
+  .process-steps li { padding: clamp(0.9rem, 2vh, 1.4rem) clamp(1rem, 2vw, 1.8rem) clamp(1rem, 2.6vh, 1.7rem); border-left: 1px solid var(--ink); opacity: 0.38; transition: opacity 0.4s, background 0.4s; position: relative; }
+  .process-steps li:first-child { border-left: 0; }
+  .process-steps li.is-active { opacity: 1; }
+  .process-steps li::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 3px; background: var(--red); transform: scaleX(0); transform-origin: left center; transition: transform 0.5s cubic-bezier(0.7, 0, 0.2, 1); }
+  .process-steps li.is-active::before { transform: scaleX(1); }
+  .step-no { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.14em; color: var(--red); }
+  .process-steps h3 { font-size: clamp(1.3rem, 2vw, 1.9rem); line-height: 1.05; margin-top: 0.3rem; }
+  .process-steps p { margin-top: 0.45rem; font-size: 0.92rem; color: var(--ink-soft); max-width: 34ch; }
+
+  @media (max-width: 860px) {
+    .process-runway { height: 400vh; }
+    /* the drawing is wider than the phone: it pans across as the steps go by */
+    .process-drawing { overflow: hidden; }
+    .process-drawing svg { inset: 0.4rem auto 0.8rem 0; width: auto; height: calc(100% - 1.2rem); aspect-ratio: 16 / 9; transform: translate3d(calc(min(1, var(--p) * 1.22) * (100vw - 100%)), 0, 0); }
+    .process-steps { grid-template-columns: 1fr; }
+    .process-steps li { display: none; border-left: 0; }
+    .process-steps li.is-active { display: block; }
+    .process-steps p { max-width: none; }
+  }
+
+  /* No motion: the finished drawing, then the four steps as an ordinary list */
+  .process-runway.is-static { height: auto; }
+  .process-runway.is-static .process-stage { position: static; height: auto; overflow: visible; }
+  .process-runway.is-static .process-drawing svg { position: static; height: auto; width: 100%; transform: none; }
+  .process-runway.is-static .process-steps li { display: block; opacity: 1; }
+  .process-runway.is-static .process-count { display: none; }
+</style>

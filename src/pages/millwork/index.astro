@@ -1,0 +1,123 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ProcessDrawing from "@/components/motion/ProcessDrawing.astro";
+import { url, absolute } from "@/lib/url";
+
+/* Steps: design, material selection, space planning and project management are the four
+   services on the client's current site; the order below is how a millwork job runs. */
+const steps = [
+  { no: "01", title: "Design", body: "We start with how you use the room, then plan the layout and help you choose materials, finishes and hardware." },
+  // CONFIRM: that the client signs off shop drawings before fabrication
+  { no: "02", title: "Shop drawings", body: "Every piece is drawn and dimensioned: elevations, sections, details. The drawing is what gets built." },
+  { no: "03", title: "Fabrication", body: "Boxes, doors, panels and trim are cut, assembled and finished to the drawing." },
+  { no: "04", title: "Installation", body: "We fit the work to the room and oversee the project through to the last piece of hardware." },
+];
+const makes = [
+  { title: "Kitchens", body: "Islands, pantries, hoods and integrated appliance walls, traditional or handle-free.", img: "kitchen-3" },
+  { title: "Wardrobes and dressing rooms", body: "Fitted doors, drawer banks, hanging and islands, floor to ceiling.", img: "classic-6" },
+  { title: "Vanities", body: "Wall-hung or furniture-style, with stone tops, lighting and storage built in.", img: "suite-5" },
+  { title: "Built-ins and wall units", body: "Libraries, media walls and storage walls made for the wall they stand on.", img: "library-2" },
+  { title: "Bars and restaurant millwork", body: "Bars, back bars, banquettes and service stations for busy rooms.", img: "harbour-2" },
+  { title: "Retail and office fixtures", body: "Display walls, showcases, reception and boardroom storage.", img: "archive-1" },
+];
+const services = [
+  { mark: "S01", name: "Interior design", note: "From concept to completion" },
+  { mark: "S02", name: "Material selection", note: "Finishes, fabrics, hardware" },
+  { mark: "S03", name: "Space planning", note: "Layout and flow" },
+  { mark: "S04", name: "Project management", note: "Planning to installation" },
+];
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absolute() },
+      { "@type": "ListItem", position: 2, name: "Millwork & process", item: absolute("millwork/") },
+    ],
+  },
+];
+---
+<Layout
+  title="Custom Millwork & Our Process | Selections"
+  description="How Selections designs, draws, builds and installs custom millwork: kitchens, wardrobes, vanities, built-ins and commercial fixtures in the GTA and Muskoka."
+  path="millwork/"
+  current="millwork"
+  schema={schema}
+  variant="film"
+>
+<main class="page">
+  <section class="page-hero">
+    <div class="wrap">
+      <div>
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><a href={url()}>Home</a><span>/</span>Millwork</nav>
+        <span class="eyebrow">Millwork &amp; process</span>
+        <h1>Custom millwork, drawn before it is cut.</h1>
+        <p class="lede">Four steps take a room from a conversation to a fitted piece. Scroll and the drawing below goes through all four.</p>
+      </div>
+    </div>
+  </section>
+
+  <ProcessDrawing steps={steps} />
+
+  <section class="section" id="makes">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">What we make</span>
+        <h2>Anything that has to fit a room exactly.</h2>
+      </div>
+      <div class="make-grid">
+        {makes.map((m, i) => (
+          <article class="make reveal">
+            <img src={url(`assets/img/${m.img}.webp`)} alt="" loading="lazy" />
+            <div>
+              <span class="idx">M{String(i + 1).padStart(2, "0")}</span>
+              <h3>{m.title}</h3>
+              <p>{m.body}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section ruled" id="services">
+    <div class="wrap statement">
+      <div class="reveal">
+        <span class="eyebrow">Design services</span>
+        <h2 style="margin-top:0.9rem">The design is part of the job.</h2>
+        <p style="margin-top:1.2rem">You do not need to arrive with drawings. We can plan the space, select the materials and manage the project around the millwork.</p>
+      </div>
+      <table class="schedule roomy reveal">
+        <caption>Service schedule</caption>
+        <thead><tr><th>Mark</th><th>Service</th><th>Covers</th></tr></thead>
+        <tbody>
+          {services.map((s) => <tr><td>{s.mark}</td><td class="name">{s.name}</td><td>{s.note}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section pine final-cta" id="start">
+    <div class="wrap reveal">
+      <span class="eyebrow">Start a drawing</span>
+      <h2 style="margin-top:1rem">Step one is a conversation.</h2>
+      <p>Tell us about the room and what it needs to do. The first consultation is free.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-light btn-lg" href={url("contact/")}>Book a free consultation</a>
+        <a class="btn btn-ghost btn-lg" href={url("work/")}>See the work</a>
+      </div>
+    </div>
+  </section>
+</main>
+</Layout>
+
+<style is:global>
+  .make-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.4rem, 3vw, 2.6rem) clamp(1rem, 2vw, 1.6rem); }
+  .make img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; outline: 1px solid var(--rule); outline-offset: -1px; }
+  .make > div { border-top: 1px solid var(--ink); margin-top: 12px; padding-top: 0.9rem; }
+  .make .idx { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.14em; color: var(--red); }
+  .make h3 { font-size: clamp(1.4rem, 2vw, 1.8rem); line-height: 1.1; margin-top: 0.4rem; font-weight: 400; }
+  .make p { margin-top: 0.5rem; color: var(--ink-soft); font-size: 0.97rem; }
+  @media (max-width: 1100px) { .make-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .make-grid { grid-template-columns: 1fr; } }
+</style>
