@@ -1,0 +1,110 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import DrawnFilm from "@/components/motion/DrawnFilm.astro";
+import Sheet from "@/components/motion/Sheet.astro";
+import { url, absolute } from "@/lib/url";
+import { projects } from "@/data/projects";
+
+const img = (name: string) => url(`assets/img/${name}.webp`);
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absolute() },
+      { "@type": "ListItem", position: 2, name: "Work", item: absolute("work/") },
+    ],
+  },
+];
+---
+<Layout
+  title="Custom Millwork Projects | Selections Interiors & Design"
+  description="Kitchens, wardrobes, built-ins, vanities and commercial fit-outs designed and built by Selections across the GTA and Muskoka."
+  path="work/"
+  current="work"
+  schema={schema}
+  variant="film"
+>
+  <DrawnFilm units={2} hint="Scroll to cut">
+    <Sheet id="work" no="A-100" title="Selected work · Index" units={2} reveal="drawer"
+      panels={[{ src: "vanity", alt: "Wall-hung vanity with a backlit mirror, fluted panels and a lit shelf tower", pos: "50% 48%", portraitPos: "47% 50%" }]}>
+      <Fragment slot="hero">
+        <div class="page-title">
+          <nav class="breadcrumbs" aria-label="Breadcrumb"><a href={url()}>Home</a><span>/</span>Work</nav>
+          <span class="eyebrow">Selected work</span>
+          <h1 class="hero-heading"><span class="line"><span class="word">Custom millwork,</span></span> <span class="line"><span class="word"><em>room by room.</em></span></span></h1>
+          <div class="hero-foot">
+            <div class="hero-tagline-wrap"><p class="hero-tagline">Kitchens, wardrobes, built-ins and commercial fit-outs. Each one began as a drawing.</p></div>
+          </div>
+        </div>
+      </Fragment>
+      <h2 class="beat-heading">Eight sheets <em>from the set.</em></h2>
+      <p class="beat-body">Homes and public rooms, classic and modern. Each project's first photograph is cut in from its drawing as you reach it.</p>
+    </Sheet>
+  </DrawnFilm>
+
+  <main class="page-flow">
+    <div class="work-bar">
+      <span class="mono">Sheet index · {projects.length} projects</span>
+      <div class="filters" role="group" aria-label="Filter projects">
+        <button class="filter active" type="button" data-type="all">All</button>
+        <button class="filter" type="button" data-type="residential">Residential</button>
+        <button class="filter" type="button" data-type="commercial">Commercial</button>
+      </div>
+    </div>
+
+    {projects.map((p) => (
+      <article class="project" data-type={p.type} id={p.no.toLowerCase()}>
+        <header class="project-head">
+          <span class="project-no">{p.no}</span>
+          <h2 class="project-title">{p.title}</h2>
+          <span class="project-tags">{p.tags}</span>
+          <p class="project-desc">{p.desc}</p>
+        </header>
+        <div class="strip" data-strip>
+          <div class="strip-track">
+            {p.shots.map((s, i) => (
+              <figure style={`aspect-ratio:${s.ar}`}>
+                {i === 0 ? (
+                  <div class="drawn" data-drawn>
+                    <img class="drawn-line" src={img(`${s.src}-line`)} alt="" loading="lazy" />
+                    <img class="drawn-photo" src={img(s.src)} alt={s.alt} loading="lazy" />
+                  </div>
+                ) : (
+                  <img src={img(s.src)} alt={s.alt} loading="lazy" />
+                )}
+                {s.cap && <figcaption>{s.cap}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        </div>
+      </article>
+    ))}
+
+    <section class="section pine final-cta" id="start">
+      <div class="wrap reveal">
+        <span class="eyebrow">Start a drawing</span>
+        <h2 style="margin-top:1rem">Yours could be sheet A-109.</h2>
+        <p>Tell us about the room. The first consultation is free.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-light btn-lg" href={url("contact/?reason=Residential")}>A home project</a>
+          <a class="btn btn-ghost btn-lg" href={url("contact/?reason=Commercial")}>A commercial project</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /* Filter: All / Residential / Commercial. ?type=commercial preselects. */
+    const buttons = document.querySelectorAll<HTMLButtonElement>(".filter[data-type]");
+    const cards = document.querySelectorAll<HTMLElement>(".project[data-type]");
+    const apply = (type: string) => {
+      buttons.forEach((b) => b.classList.toggle("active", b.dataset.type === type));
+      cards.forEach((c) => c.classList.toggle("hidden", type !== "all" && c.dataset.type !== type));
+      document.dispatchEvent(new CustomEvent("work:filter"));
+    };
+    buttons.forEach((b) => b.addEventListener("click", () => apply(b.dataset.type || "all")));
+    const q = new URLSearchParams(location.search).get("type");
+    if (q === "residential" || q === "commercial") apply(q);
+  </script>
+</Layout>
