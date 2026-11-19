@@ -48,7 +48,7 @@ const FAVICON = "data:image/svg+xml," + encodeURIComponent(
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  {/* Colourway review: ?theme=forest|blueprint|prussian|brass|current picks a colourway for this tab (see selections.css). Remove with the themes once one is chosen. */}
+  {/* Colourway review: ?theme=forest|blueprint|prussian|brass|cyanotype|sage|hivis|oxblood|current picks a colourway for this tab (see selections.css). Remove with the themes once one is chosen. */}
   <script is:inline>
     (function () { try {
       var q = new URLSearchParams(location.search).get("theme"), s = sessionStorage;
@@ -102,6 +102,10 @@ const FAVICON = "data:image/svg+xml," + encodeURIComponent(
     <button type="button" data-set="blueprint"><i style="background:#eef1f3"></i><i style="background:#0e1a2b"></i><i style="background:#1f4fd6"></i><span>Blueprint</span></button>
     <button type="button" data-set="prussian"><i style="background:#eef0f1"></i><i style="background:#14171b"></i><i style="background:#123f7a"></i><span>Prussian</span></button>
     <button type="button" data-set="brass"><i style="background:#16120e"></i><i style="background:#ebe4d5"></i><i style="background:#c8a25c"></i><span>Brass</span></button>
+    <button type="button" data-set="cyanotype"><i style="background:#12397a"></i><i style="background:#f2f6fa"></i><i style="background:#8fe6c4"></i><span>Cyanotype</span></button>
+    <button type="button" data-set="sage"><i style="background:#c8d1c0"></i><i style="background:#15241b"></i><i style="background:#5b2248"></i><span>Sage</span></button>
+    <button type="button" data-set="hivis"><i style="background:#c9cac6"></i><i style="background:#101010"></i><i style="background:#e2f02c"></i><span>Hi-vis</span></button>
+    <button type="button" data-set="oxblood"><i style="background:#2a0c11"></i><i style="background:#f1ddd6"></i><i style="background:#a9d8c0"></i><span>Oxblood</span></button>
   </div>
   <script is:inline>
     (function () {

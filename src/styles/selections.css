@@ -253,7 +253,7 @@ a:focus-visible, .btn:focus-visible, button:focus-visible { outline-color: var(-
    Colourways under review. Each is two base colours and one accent, and the accent is spent
    only where it converts: buttons, the header CTA, the closing CTA band, link underlines and
    the cut line that leads the eye through the film. Labels, sheet numbers and italic emphasis
-   go to the base colours. Preview with ?theme=forest | blueprint | prussian | brass (?theme=current to
+   go to the base colours. Preview with ?theme=forest | blueprint | prussian | brass | cyanotype | sage | hivis | oxblood (?theme=current to
    go back); the choice is kept for the tab. When one is chosen, move its values into :root in
    style.css and delete the rest of this block and the switcher in Layout.astro.
 ———————————————————————————————— */
@@ -297,10 +297,65 @@ html[data-theme="brass"] {
   --cut: #c8a25c; --mark: #b4a999; --emph: var(--ink);
   --pine-deep: #c8a25c; --on-dark: #16120e; --on-ink: #16120e; --oak: #4a3a1c;
 }
-html[data-theme="brass"] .panel-line { mix-blend-mode: screen; }
-html[data-theme="brass"] .panel-line img { filter: invert(1); }
-html[data-theme="brass"] .drawn .drawn-line, html[data-theme="brass"] .card-media .card-line { mix-blend-mode: screen; filter: invert(1); }
 html[data-theme="brass"] .btn-light { color: #ebe4d5; }
+
+/* ——— Experimental: the base no longer has to be white or black ——— */
+
+/* 4. Cyanotype: a true blueprint. Deep blue ground, white linework, mint. */
+html[data-theme="cyanotype"] {
+  --cream: #12397a; --paper: #19458f; --paper-2: #0d2e66;
+  --ink: #f2f6fa; --ink-rgb: 242 246 250; --ink-soft: #bccbe2; --ink-mute: #8fa4c6;
+  --pine: #0d2e66; --slate: #bccbe2;
+  --accent: #8fe6c4; --accent-ink: #0b2550; --accent-hover: #f2f6fa; --accent-hover-ink: #0b2550;
+  --cut: #8fe6c4; --mark: #bccbe2; --emph: var(--ink);
+  --pine-deep: #8fe6c4; --on-dark: #0b2550; --on-ink: #0b2550; --oak: #1c5f4c;
+}
+html[data-theme="cyanotype"] .process-stage {
+  --cream: #e9eef2; --paper: #f4f7f9; --ink: #10233f; --ink-rgb: 16 35 63; --ink-soft: #44536a; --ink-mute: #77859a;
+  --mark: #44536a; --oak: #cfb086; --cut: #12397a; color: var(--ink);
+}
+
+/* 5. Sage: sage-green paper, pine ink, plum. */
+html[data-theme="sage"] {
+  --cream: #c8d1c0; --paper: #d9e0d2; --paper-2: #b6c1ad;
+  --ink: #15241b; --ink-rgb: 21 36 27; --ink-soft: #3a4b40; --ink-mute: #5c6c60;
+  --pine: #15241b; --slate: #3a4b40;
+  --accent: #5b2248; --accent-ink: #f6eef4; --accent-hover: #15241b; --accent-hover-ink: #d9e0d2;
+  --cut: #5b2248; --mark: #3a4b40; --emph: var(--ink);
+  --pine-deep: #5b2248; --on-dark: #f6eef4; --on-ink: #d9e0d2; --oak: #e0bfd6;
+}
+
+/* 6. Hi-vis: concrete grey, black, site-safety yellow. The cut line stays black so it reads on grey. */
+html[data-theme="hivis"] {
+  --cream: #c9cac6; --paper: #dbdcd8; --paper-2: #b7b8b3;
+  --ink: #101010; --ink-rgb: 16 16 16; --ink-soft: #3b3b39; --ink-mute: #5f5f5b;
+  --pine: #101010; --slate: #3b3b39;
+  --accent: #e2f02c; --accent-ink: #101010; --accent-hover: #101010; --accent-hover-ink: #e2f02c;
+  --cut: #101010; --mark: #3b3b39; --emph: var(--ink);
+  --pine-deep: #e2f02c; --on-dark: #101010; --on-ink: #dbdcd8; --oak: #4b5010;
+}
+html[data-theme="hivis"] .btn-solid, html[data-theme="hivis"] .header-cta { border-color: var(--ink); }
+html[data-theme="hivis"] .btn-light { color: #f2f2ee; }
+html[data-theme="hivis"] .panel-saw, html[data-theme="hivis"] .fp-track i { --cut: #e2f02c; }
+
+/* 7. Oxblood: wine ground, blush ink, celadon. */
+html[data-theme="oxblood"] {
+  --cream: #2a0c11; --paper: #38121a; --paper-2: #451922;
+  --ink: #f1ddd6; --ink-rgb: 241 221 214; --ink-soft: #cbaaa4; --ink-mute: #98767b;
+  --pine: #451922; --slate: #cbaaa4;
+  --accent: #a9d8c0; --accent-ink: #1f0a0d; --accent-hover: #f1ddd6; --accent-hover-ink: #1f0a0d;
+  --cut: #a9d8c0; --mark: #cbaaa4; --emph: var(--ink);
+  --pine-deep: #a9d8c0; --on-dark: #1f0a0d; --on-ink: #1f0a0d; --oak: #2f5a48;
+}
+html[data-theme="oxblood"] .process-stage {
+  --cream: #efe4dd; --paper: #f7efe9; --ink: #2a0c11; --ink-rgb: 42 12 17; --ink-soft: #6a4a4d; --ink-mute: #8f7275;
+  --mark: #6a4a4d; --oak: #cfb086; --cut: #7a1f2b; color: var(--ink);
+}
+
+/* Dark grounds: the ink drawings invert to light linework */
+html:is([data-theme="brass"], [data-theme="cyanotype"], [data-theme="oxblood"]) .panel-line { mix-blend-mode: screen; }
+html:is([data-theme="brass"], [data-theme="cyanotype"], [data-theme="oxblood"]) .panel-line img { filter: invert(1); }
+html:is([data-theme="brass"], [data-theme="cyanotype"], [data-theme="oxblood"]) :is(.drawn .drawn-line, .card-media .card-line) { mix-blend-mode: screen; filter: invert(1); }
 /* the process drawing keeps its material colours, so it stays a sheet of paper lying on the dark page */
 html[data-theme="brass"] .process-stage {
   --cream: #e8e2d3; --paper: #f2ede2; --ink: #1c1713; --ink-rgb: 28 23 19; --ink-soft: #564d42; --ink-mute: #857b6c;
@@ -321,4 +376,4 @@ html[data-review] .theme-review {
 .theme-review button i { width: 12px; height: 16px; display: block; }
 .theme-review button span { padding-left: 8px; }
 .theme-review button[aria-pressed="true"] { background: #111; color: #fff; }
-@media (max-width: 860px) { html[data-review] .theme-review { top: auto; bottom: 0; right: 50%; transform: translateX(50%); grid-auto-flow: column; } .theme-review button span { display: none; } }
+@media (max-width: 860px) { html[data-review] .theme-review { top: auto; bottom: 0; right: 50%; transform: translateX(50%); grid-auto-flow: column; } .theme-review button { grid-template-columns: repeat(3, 9px); padding: 5px; } .theme-review button i { width: 9px; } .theme-review button span { display: none; } }
