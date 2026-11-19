@@ -67,6 +67,25 @@ function initDrawnFilm(root) {
     });
   }
 
+  /* ——— Streaming: later sheets keep their images in data-src / data-srcset (Sheet.astro) ———
+     loadSheet swaps them in; it is called in scroll order after the first sheet is up, and
+     straight away for whichever sheet the visitor has scrolled (or jumped) to. */
+  function loadSheet(s) {
+    if (!s || s.loading) return s ? s.loading : Promise.resolve();
+    s.el.querySelectorAll("source[data-srcset]").forEach((el) => { el.srcset = el.dataset.srcset; });
+    const imgs = [...s.el.querySelectorAll("img")];
+    imgs.forEach((img) => { if (img.dataset.src) img.src = img.dataset.src; });
+    s.loading = Promise.all(imgs.map((img) => new Promise((res) => {
+      if (img.complete && img.naturalWidth > 1) return res();
+      img.addEventListener("load", res, { once: true });
+      img.addEventListener("error", res, { once: true });
+    })));
+    return s.loading;
+  }
+  async function streamRest() {
+    for (const s of sheets.slice(1)) await loadSheet(s);
+  }
+
   /* ——— Loader: the first sheet's two images and the fonts, then lift ——— */
   function ready() {
     const first = sheets[0];
@@ -107,7 +126,7 @@ function initDrawnFilm(root) {
 
   if (reduced) {
     root.classList.add("is-static");
-    sheets.forEach((s) => s.el.classList.add("is-on"));
+    sheets.forEach((s) => { s.el.classList.add("is-on"); loadSheet(s); });
     measure();
     window.addEventListener("resize", measure);
     ready().then(() => loaderEl && loaderEl.classList.add("done"));
@@ -120,6 +139,7 @@ function initDrawnFilm(root) {
   /* ——— The scroll → sheet state mapping ——— */
   const ENTER = 0.2;      // share of a sheet's stretch spent arriving
   let current = 0;
+  let firstUp = false;   // the opening sheet is on screen: later sheets may start loading
 
   function fireCounters(scope) {
     scope.querySelectorAll(".stat-number[data-value]").forEach((el) => {
@@ -174,6 +194,7 @@ function initDrawnFilm(root) {
       if (s.plain && s.counted && enter < 0.05) s.counted = false;
     });
 
+    if (top !== current || !sheets[top].loading) { loadSheet(sheets[top]); if (firstUp) loadSheet(sheets[top + 1]); }
     current = top;
     if (progressEl) {
       progressEl.querySelector(".fp-no").textContent = sheets[top].no;
@@ -225,7 +246,9 @@ function initDrawnFilm(root) {
   void stage;
   ready().then(() => {
     if (loaderEl) loaderEl.classList.add("done");
+    firstUp = true;
     playIntro();
     jumpToProgress();
+    streamRest();
   });
 }

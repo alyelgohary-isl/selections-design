@@ -36,6 +36,13 @@ const hasHero = Astro.slots.has("hero");
 const plain = panels.length === 0;
 const img = (name: string) => url(`assets/img/${name}.webp`);
 const span = 1 + (panels.length - 1) * 0.4;
+/* Only the first sheet's images are in the HTML as real sources. Later sheets carry theirs in
+   data-src / data-srcset and drawn-film.js streams them in scroll order once the first sheet is
+   up, so scripts and the opening sheet never queue behind images nobody has scrolled to. */
+const eager = enter === "none";
+const BLANK = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+const srcAttrs = (name: string) => (eager ? { src: img(name), fetchpriority: "high" } : { src: BLANK, "data-src": img(name) });
+const setAttrs = (name: string) => (eager ? { srcset: img(name) } : { "data-srcset": img(name) });
 ---
 <section
   class:list={["sheet", `enter-${enter}`, !plain && `reveal-${reveal}`, panels.length > 1 && "is-multi", plain && "is-plain", hasHero && "has-hero"]}
@@ -48,8 +55,8 @@ const span = 1 + (panels.length - 1) * 0.4;
         <div class="panel" style={`--i:${i}; --pos:${p.pos ?? "50% 50%"}; --pos-p:${p.portraitPos ?? p.pos ?? "50% 50%"}`}>
           <div class="panel-line" aria-hidden="true">
             <picture>
-              {p.portrait && <source media="(max-aspect-ratio: 4/5)" srcset={img(`${p.portrait}-line`)} />}
-              <img src={img(`${p.src}-line`)} alt="" decoding="async" />
+              {p.portrait && <source media="(max-aspect-ratio: 4/5)" {...setAttrs(`${p.portrait}-line`)} />}
+              <img {...srcAttrs(`${p.src}-line`)} alt="" decoding="async" />
             </picture>
           </div>
           <div class="dims" aria-hidden="true">
@@ -58,8 +65,8 @@ const span = 1 + (panels.length - 1) * 0.4;
           </div>
           <div class="panel-photo">
             <picture>
-              {p.portrait && <source media="(max-aspect-ratio: 4/5)" srcset={img(p.portrait)} />}
-              <img src={img(p.src)} alt={p.alt} decoding="async" />
+              {p.portrait && <source media="(max-aspect-ratio: 4/5)" {...setAttrs(p.portrait)} />}
+              <img {...srcAttrs(p.src)} alt={p.alt} decoding="async" />
             </picture>
           </div>
           <i class="panel-saw" aria-hidden="true"></i>
