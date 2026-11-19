@@ -7,7 +7,7 @@
 
 h1, h2, h3, .display { font-weight: 350; letter-spacing: -0.022em; font-optical-sizing: auto; }
 em, i { font-style: italic; }
-::selection { background: var(--red); color: var(--on-dark); }
+::selection { background: var(--accent); color: var(--accent-ink); }
 
 .mono, .eyebrow, .breadcrumbs, .status-label, .card-meta, .micro, .field label, .contact-details dt, .spec-list dt, .footer-col h3, .steps li::before {
   font-family: var(--font-mono);
@@ -27,12 +27,12 @@ em, i { font-style: italic; }
 .site-nav { gap: clamp(1.1rem, 2.2vw, 2.2rem); }
 .site-nav a { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
 .site-nav a .nav-no { color: var(--red); margin-right: 0.6em; }
-.site-nav a[aria-current="page"] { color: var(--ink); box-shadow: 0 1px 0 var(--red); }
+.site-nav a[aria-current="page"] { color: var(--ink); box-shadow: 0 1px 0 var(--cut); }
 .header-cta, .site-nav .header-cta {
   font-family: var(--font-mono); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--on-dark); background: var(--ink); border: 1px solid var(--ink); border-radius: 0; padding: 0.7rem 1rem;
+  color: var(--accent-ink); background: var(--accent); border: 1px solid var(--accent); border-radius: 0; padding: 0.7rem 1rem;
 }
-.header-cta:hover, .header-cta:focus-visible { background: var(--red); border-color: var(--red); }
+.header-cta:hover, .header-cta:focus-visible { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--accent-hover-ink); }
 .nav-toggle { border-radius: 0; border-color: var(--ink); }
 
 /* ——— Small marks ——— */
@@ -44,23 +44,23 @@ em, i { font-style: italic; }
   letter-spacing: 0.12em; text-transform: uppercase; padding: 1rem 1.5rem;
 }
 .btn:hover { transform: none; }
-.btn-solid { background: var(--ink); border-color: var(--ink); color: var(--on-dark); }
-.btn-solid:hover { background: var(--red); border-color: var(--red); }
+.btn-solid { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn-solid:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--accent-hover-ink); }
 .btn-ghost { border-color: var(--ink); color: var(--ink); background: transparent; }
-.btn-ghost:hover { background: var(--ink); border-color: var(--ink); color: var(--on-dark); }
+.btn-ghost:hover { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
 .btn-light { background: var(--on-dark); border-color: var(--on-dark); color: var(--ink); }
 .btn-light:hover { background: var(--oak); border-color: var(--oak); }
 .btn-lg { padding: 1.15rem 1.8rem; font-size: 0.78rem; }
 .btn-sm { padding: 0.7rem 1rem; font-size: 0.68rem; }
-.link-arrow { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); box-shadow: 0 1px 0 var(--red); padding-bottom: 0.2em; }
-.link-arrow:hover { color: var(--red); }
+.link-arrow { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); box-shadow: 0 1px 0 var(--cut); padding-bottom: 0.2em; }
+.link-arrow:hover { color: var(--cut); }
 
 /* ——— Home hero copy, on the drawing ——— */
 .hero-heading { font-size: clamp(3.4rem, min(11.2vw, 17vh), 11.5rem); line-height: 0.86; font-weight: 300; letter-spacing: -0.045em; margin-top: 1.1rem; }
 .hero-heading .line { padding: 0.16em 0.06em 0.1em; margin: -0.16em -0.06em 0; }   /* room for the serif's overshoot inside the clipping line */
 .hero-heading .line:nth-child(2) { padding-left: 0.55em; }
 .hero-heading .line:nth-child(3) { padding-left: 1.1em; }
-.hero-heading em { color: var(--red); }
+.hero-heading em { color: var(--emph); }
 .hero-tagline { max-width: 40ch; font-size: clamp(1rem, 1.25vw, 1.15rem); color: var(--ink); background: var(--cream); padding: 0.1em 0; box-shadow: 0.5em 0 0 var(--cream), -0.5em 0 0 var(--cream); display: inline; -webkit-box-decoration-break: clone; box-decoration-break: clone; line-height: 1.75; }
 .hero-foot { margin-top: auto; }
 .hero-tagline-wrap { max-width: 44ch; }
@@ -77,7 +77,7 @@ em, i { font-style: italic; }
 
 /* Beat copy inside the title block */
 .beat-heading { font-weight: 350; letter-spacing: -0.025em; }
-.beat-heading em { color: var(--red); }
+.beat-heading em { color: var(--emph); }
 
 /* ——— The closing sheet of the home film: the long view ——— */
 .long-view { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; max-width: 82rem; margin: 0 auto; width: 100%; }
@@ -103,7 +103,7 @@ em, i { font-style: italic; }
 .section.paper { background: transparent; border-top: 1px solid var(--ink); }
 .section.ruled { border-top: 1px solid var(--ink); }
 .section-head h2, .h2, .statement h2 { font-weight: 350; }
-.statement p.accent { color: var(--red); }
+.statement p.accent { color: var(--emph); }
 .lede { color: var(--ink); }
 
 .featured, .community-card, .why-card, .route-card, .update-card, .nearby-card, .badge, .tag, .form-success { border-radius: 0; }
@@ -133,10 +133,10 @@ em, i { font-style: italic; }
 
 .section.pine { background: var(--pine-deep); }
 .section.pine .eyebrow { color: var(--oak); }
-.section.pine .btn-ghost { border-color: rgba(241, 235, 222, 0.6); color: var(--on-dark); }
-.section.pine .btn-ghost:hover { background: var(--on-dark); border-color: var(--on-dark); color: var(--ink); }
+.section.pine .btn-ghost { border-color: color-mix(in srgb, var(--on-dark) 60%, transparent); color: var(--on-dark); }
+.section.pine .btn-ghost:hover { background: var(--on-dark); border-color: var(--on-dark); color: var(--pine-deep); }
 .final-cta h2 { font-weight: 300; letter-spacing: -0.035em; }
-.final-cta p { color: rgba(241, 235, 222, 0.75); }
+.final-cta p { color: color-mix(in srgb, var(--on-dark) 78%, transparent); }
 
 .proof-bar { border-top-color: var(--ink); border-bottom-color: var(--ink); }
 .proof-item { border-left-color: var(--rule); }
@@ -148,34 +148,34 @@ em, i { font-style: italic; }
 .breadcrumbs { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; }
 
 .route-card { background: var(--paper); border-color: var(--ink); }
-.route-card:hover, .route-card.active { border-color: var(--ink); transform: none; background: var(--ink); color: var(--on-dark); }
-.route-card:hover p, .route-card.active p { color: rgba(241, 235, 222, 0.75); }
-.route-card:hover .link-arrow, .route-card.active .link-arrow { color: var(--on-dark); }
+.route-card:hover, .route-card.active { border-color: var(--ink); transform: none; background: var(--ink); color: var(--on-ink); }
+.route-card:hover p, .route-card.active p { color: color-mix(in srgb, var(--on-ink) 75%, transparent); }
+.route-card:hover .link-arrow, .route-card.active .link-arrow { color: var(--on-ink); }
 .route-cards { grid-template-columns: repeat(3, 1fr); }
 .contact-details dt { font-size: 0.64rem; letter-spacing: 0.14em; font-weight: 500; }
 .contact-details dd { font-family: var(--font-display); font-size: 1.35rem; }
 .contact-details a { border-bottom-color: var(--rule); }
-.contact-details a:hover { border-bottom-color: var(--red); }
+.contact-details a:hover { border-bottom-color: var(--cut); }
 
 .field label { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; }
 .field input, .field select, .field textarea { border-radius: 0; background: var(--paper); border-color: var(--rule); }
-.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--ink); box-shadow: inset 0 -2px 0 var(--red); }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--ink); box-shadow: inset 0 -2px 0 var(--cut); }
 .form-success { border-color: var(--ink); background: var(--paper); }
 .micro { font-size: 0.68rem; letter-spacing: 0.04em; }
 
 .filters { gap: 0; margin-bottom: 0; }
 .filter { border-radius: 0; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; border-color: var(--ink); color: var(--ink); margin-left: -1px; padding: 0.7rem 1.1rem; }
 .filter:hover { color: var(--ink); border-color: var(--ink); background: var(--paper); }
-.filter.active { background: var(--ink); border-color: var(--ink); color: var(--on-dark); }
+.filter.active { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
 
-a:focus-visible, .btn:focus-visible, button:focus-visible { outline-color: var(--red); border-radius: 0; }
+a:focus-visible, .btn:focus-visible, button:focus-visible { outline-color: var(--cut); border-radius: 0; }
 
 /* ——— Drawn figure: a photograph that starts as its drawing and is cut in when it scrolls into view ——— */
 .drawn { position: relative; overflow: hidden; background: var(--cream); }
 .drawn .drawn-line { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; }
 .drawn .drawn-photo { position: relative; display: block; width: 100%; height: 100%; object-fit: cover; clip-path: inset(0 100% 0 0); transition: clip-path 1.5s cubic-bezier(0.7, 0, 0.15, 1) 0.15s; }
 .drawn.in .drawn-photo { clip-path: inset(0 0 0 0); }
-.drawn::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: var(--red); transform: translateX(0); opacity: 0; transition: left 1.5s cubic-bezier(0.7, 0, 0.15, 1) 0.15s, opacity 0.2s linear 0.15s; }
+.drawn::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: var(--cut); transform: translateX(0); opacity: 0; transition: left 1.5s cubic-bezier(0.7, 0, 0.15, 1) 0.15s, opacity 0.2s linear 0.15s; }
 .drawn.in::after { left: 100%; opacity: 1; }
 
 /* ——— Project sheets (Work) ——— */
@@ -203,7 +203,7 @@ a:focus-visible, .btn:focus-visible, button:focus-visible { outline-color: var(-
 /* ——— Footer ——— */
 .site-footer { border-top: 1px solid var(--ink); }
 .footer-grid { grid-template-columns: 1.6fr 1fr 1.2fr 1.2fr; }
-.footer-brand .tagline { color: var(--red); font-size: 1.4rem; }
+.footer-brand .tagline { color: var(--emph); font-size: 1.4rem; }
 .footer-col h3 { font-size: 0.64rem; letter-spacing: 0.16em; font-weight: 500; color: var(--red); }
 .footer-col li { color: var(--ink-soft); }
 .footer-col .footer-hours { color: var(--ink-mute); }
@@ -211,7 +211,7 @@ a:focus-visible, .btn:focus-visible, button:focus-visible { outline-color: var(-
 .footer-legal { border-top-color: var(--rule); display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.08em; }
 .footer-social { display: flex; gap: 1.4rem; }
 .footer-social a { text-decoration: none; }
-.footer-social a:hover { color: var(--red); }
+.footer-social a:hover { color: var(--cut); }
 
 @media (max-width: 1100px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -221,7 +221,7 @@ a:focus-visible, .btn:focus-visible, button:focus-visible { outline-color: var(-
   .site-nav { background: var(--cream); padding-top: 5.5rem; }
   .site-nav a { font-family: var(--font-display); font-size: 2.4rem; letter-spacing: -0.02em; text-transform: none; color: var(--ink); }
   .site-nav a .nav-no { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; vertical-align: 0.9em; }
-  .site-nav .header-cta { font-size: 0.74rem; color: var(--on-dark); }
+  .site-nav .header-cta { font-size: 0.74rem; color: var(--accent-ink); }
   .brand-tag { display: none; }
   .hero-heading { font-size: clamp(3.2rem, min(19vw, 11.5vh), 5.6rem); }
   .page-title .hero-heading { font-size: clamp(2.5rem, 12vw, 4rem); }
@@ -248,3 +248,77 @@ a:focus-visible, .btn:focus-visible, button:focus-visible { outline-color: var(-
   .drawn::after { display: none; }
   .card-media .card-photo { transition: none; }
 }
+
+/* ————————————————————————————————
+   Colourways under review. Each is two base colours and one accent, and the accent is spent
+   only where it converts: buttons, the header CTA, the closing CTA band, link underlines and
+   the cut line that leads the eye through the film. Labels, sheet numbers and italic emphasis
+   go to the base colours. Preview with ?theme=forest | blueprint | prussian | brass (?theme=current to
+   go back); the choice is kept for the tab. When one is chosen, move its values into :root in
+   style.css and delete the rest of this block and the switcher in Layout.astro.
+———————————————————————————————— */
+
+/* 1. Forest: bone paper, ink black, forest green */
+html[data-theme="forest"] {
+  --cream: #e7e5de; --paper: #f1f0eb; --paper-2: #d9d6cd;
+  --ink: #151714; --ink-rgb: 21 23 20; --ink-soft: #4b4f49; --ink-mute: #7d817a;
+  --pine: #151714; --slate: #5d6b5f;
+  --accent: #1d5a41; --accent-ink: #f4f3ee; --accent-hover: #151714; --accent-hover-ink: #f1f0eb;
+  --cut: #1d5a41; --mark: #4b4f49; --emph: var(--ink);
+  --pine-deep: #1d5a41; --on-dark: #f1f0eb; --on-ink: #f1f0eb; --oak: #b9d2c3;
+}
+
+/* 2. Blueprint: cool white paper, navy ink, cobalt */
+html[data-theme="blueprint"] {
+  --cream: #eef1f3; --paper: #f8fafb; --paper-2: #dde3e8;
+  --ink: #0e1a2b; --ink-rgb: 14 26 43; --ink-soft: #44536a; --ink-mute: #77859a;
+  --pine: #0e1a2b; --slate: #44536a;
+  --accent: #1f4fd6; --accent-ink: #ffffff; --accent-hover: #0e1a2b; --accent-hover-ink: #eef1f3;
+  --cut: #1f4fd6; --mark: #44536a; --emph: var(--ink);
+  --pine-deep: #1f4fd6; --on-dark: #ffffff; --on-ink: #eef1f3; --oak: #c3d2fb;
+}
+
+/* 2b. Prussian: the same cool paper with a neutral near-black ink, so the deeper blue still reads as the one colour */
+html[data-theme="prussian"] {
+  --cream: #eef0f1; --paper: #f8f9fa; --paper-2: #dde1e5;
+  --ink: #14171b; --ink-rgb: 20 23 27; --ink-soft: #4a5058; --ink-mute: #7c838c;
+  --pine: #14171b; --slate: #4a5058;
+  --accent: #123f7a; --accent-ink: #ffffff; --accent-hover: #14171b; --accent-hover-ink: #eef0f1;
+  --cut: #123f7a; --mark: #4a5058; --emph: var(--ink);
+  --pine-deep: #123f7a; --on-dark: #ffffff; --on-ink: #eef0f1; --oak: #b5c8e6;
+}
+
+/* 3. Brass: walnut-black ground, bone ink, brass. The drawings invert to light linework. */
+html[data-theme="brass"] {
+  --cream: #16120e; --paper: #201a15; --paper-2: #2a231c;
+  --ink: #ebe4d5; --ink-rgb: 235 228 213; --ink-soft: #b4a999; --ink-mute: #877c6d;
+  --pine: #2a231c; --slate: #b4a999;
+  --accent: #c8a25c; --accent-ink: #16120e; --accent-hover: #ebe4d5; --accent-hover-ink: #16120e;
+  --cut: #c8a25c; --mark: #b4a999; --emph: var(--ink);
+  --pine-deep: #c8a25c; --on-dark: #16120e; --on-ink: #16120e; --oak: #4a3a1c;
+}
+html[data-theme="brass"] .panel-line { mix-blend-mode: screen; }
+html[data-theme="brass"] .panel-line img { filter: invert(1); }
+html[data-theme="brass"] .drawn .drawn-line, html[data-theme="brass"] .card-media .card-line { mix-blend-mode: screen; filter: invert(1); }
+html[data-theme="brass"] .btn-light { color: #ebe4d5; }
+/* the process drawing keeps its material colours, so it stays a sheet of paper lying on the dark page */
+html[data-theme="brass"] .process-stage {
+  --cream: #e8e2d3; --paper: #f2ede2; --ink: #1c1713; --ink-rgb: 28 23 19; --ink-soft: #564d42; --ink-mute: #857b6c;
+  --mark: #564d42; --oak: #cfb086; --cut: #9a7630; color: var(--ink);
+}
+
+/* In every colourway the closing band is the accent itself, with the button in the band's text colour */
+html[data-theme] .section.pine .eyebrow { color: var(--oak); }
+html[data-theme] .btn-light:hover { background: var(--oak); border-color: var(--oak); }
+
+/* Review switcher (shown only after a ?theme= link has been used in this tab) */
+.theme-review { display: none; }
+html[data-review] .theme-review {
+  display: grid; gap: 1px; position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 300;
+  background: #111; border: 1px solid #111; font: 500 10px/1 ui-monospace, Menlo, monospace; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.theme-review button { appearance: none; border: 0; cursor: pointer; display: grid; grid-template-columns: repeat(3, 12px) auto; align-items: center; gap: 0; padding: 7px 9px 7px 7px; background: #fff; color: #111; font: inherit; }
+.theme-review button i { width: 12px; height: 16px; display: block; }
+.theme-review button span { padding-left: 8px; }
+.theme-review button[aria-pressed="true"] { background: #111; color: #fff; }
+@media (max-width: 860px) { html[data-review] .theme-review { top: auto; bottom: 0; right: 50%; transform: translateX(50%); grid-auto-flow: column; } .theme-review button span { display: none; } }

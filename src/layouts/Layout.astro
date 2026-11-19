@@ -48,6 +48,15 @@ const FAVICON = "data:image/svg+xml," + encodeURIComponent(
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {/* Colourway review: ?theme=forest|blueprint|prussian|brass|current picks a colourway for this tab (see selections.css). Remove with the themes once one is chosen. */}
+  <script is:inline>
+    (function () { try {
+      var q = new URLSearchParams(location.search).get("theme"), s = sessionStorage;
+      if (q !== null) s.setItem("theme", q);
+      var t = s.getItem("theme");
+      if (t !== null) { document.documentElement.setAttribute("data-review", ""); if (t && t !== "current") document.documentElement.setAttribute("data-theme", t); }
+    } catch (e) {} })();
+  </script>
   {gtm && <script define:vars={{ gtm }}>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
     var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
@@ -87,6 +96,26 @@ const FAVICON = "data:image/svg+xml," + encodeURIComponent(
   <Footer />
   <!-- public/js/config.js holds the form endpoint and reCAPTCHA key; it stays a plain, unbundled file so it is easy to find and edit -->
   <script is:inline src={url("js/config.js")}></script>
+  <div class="theme-review" role="group" aria-label="Colourway review">
+    <button type="button" data-set="current"><i style="background:#ece5d6"></i><i style="background:#1c1713"></i><i style="background:#b5381f"></i><span>Current</span></button>
+    <button type="button" data-set="forest"><i style="background:#e7e5de"></i><i style="background:#151714"></i><i style="background:#1d5a41"></i><span>Forest</span></button>
+    <button type="button" data-set="blueprint"><i style="background:#eef1f3"></i><i style="background:#0e1a2b"></i><i style="background:#1f4fd6"></i><span>Blueprint</span></button>
+    <button type="button" data-set="prussian"><i style="background:#eef0f1"></i><i style="background:#14171b"></i><i style="background:#123f7a"></i><span>Prussian</span></button>
+    <button type="button" data-set="brass"><i style="background:#16120e"></i><i style="background:#ebe4d5"></i><i style="background:#c8a25c"></i><span>Brass</span></button>
+  </div>
+  <script is:inline>
+    (function () {
+      var root = document.documentElement, btns = document.querySelectorAll(".theme-review button");
+      function mark() { var cur = root.getAttribute("data-theme") || "current"; btns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-set") === cur)); }); }
+      btns.forEach(function (b) { b.addEventListener("click", function () {
+        var v = b.getAttribute("data-set");
+        try { sessionStorage.setItem("theme", v); } catch (e) {}
+        if (v === "current") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", v);
+        mark();
+      }); });
+      mark();
+    })();
+  </script>
   <script>import "../scripts/site.js";</script>
   <script>import "../scripts/sheets.js";</script>
 </body>

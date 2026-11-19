@@ -148,10 +148,10 @@ const swings = [
   .process-ground {
     position: absolute; inset: 0; z-index: 0; background-color: var(--cream);
     background-image:
-      linear-gradient(rgba(28, 23, 19, 0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(28, 23, 19, 0.07) 1px, transparent 1px),
-      linear-gradient(rgba(28, 23, 19, 0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(28, 23, 19, 0.035) 1px, transparent 1px);
+      linear-gradient(rgb(var(--ink-rgb) / 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--ink-rgb) / 0.07) 1px, transparent 1px),
+      linear-gradient(rgb(var(--ink-rgb) / 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--ink-rgb) / 0.035) 1px, transparent 1px);
     background-size: 160px 160px, 160px 160px, 32px 32px, 32px 32px;
   }
   .process-head { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; padding: 1.1rem var(--gutter) 0; }
@@ -188,10 +188,10 @@ const swings = [
   .process-drawing .el-room { opacity: var(--p4); }
   .process-drawing .room-line { fill: none; stroke: var(--ink); stroke-width: 3.5; vector-effect: non-scaling-stroke; }
   .process-drawing .room-hatch { fill: none; stroke: var(--ink); stroke-width: 1; vector-effect: non-scaling-stroke; }
-  .process-drawing .scribe { fill: var(--red); }
+  .process-drawing .scribe { fill: var(--cut); }
   .process-drawing .objects { fill: none; stroke: var(--ink); stroke-width: 1.4; vector-effect: non-scaling-stroke; opacity: clamp(0, calc(var(--p4) * 3 - 1.4), 1); }
   .process-drawing .el-notes { opacity: clamp(0, calc(var(--p4) * 3 - 1), 1); }
-  .process-drawing .el-notes path { fill: none; stroke: var(--red); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .process-drawing .el-notes path { fill: none; stroke: var(--cut); stroke-width: 1; vector-effect: non-scaling-stroke; }
   .process-drawing .el-notes text { font-size: 14px; letter-spacing: 0.14em; }
 
   /* The four steps: a revision table along the bottom edge of the sheet */
@@ -199,7 +199,7 @@ const swings = [
   .process-steps li { padding: clamp(0.9rem, 2vh, 1.4rem) clamp(1rem, 2vw, 1.8rem) clamp(1rem, 2.6vh, 1.7rem); border-left: 1px solid var(--ink); opacity: 0.38; transition: opacity 0.4s, background 0.4s; position: relative; }
   .process-steps li:first-child { border-left: 0; }
   .process-steps li.is-active { opacity: 1; }
-  .process-steps li::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 3px; background: var(--red); transform: scaleX(0); transform-origin: left center; transition: transform 0.5s cubic-bezier(0.7, 0, 0.2, 1); }
+  .process-steps li::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 3px; background: var(--cut); transform: scaleX(0); transform-origin: left center; transition: transform 0.5s cubic-bezier(0.7, 0, 0.2, 1); }
   .process-steps li.is-active::before { transform: scaleX(1); }
   .step-no { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.14em; color: var(--red); }
   .process-steps h3 { font-size: clamp(1.3rem, 2vw, 1.9rem); line-height: 1.05; margin-top: 0.3rem; }

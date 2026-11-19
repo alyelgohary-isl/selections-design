@@ -73,7 +73,7 @@ const vars = `--film-runway: ${Math.round(units * 100)}vh; --film-runway-mobile:
   .loader-brand { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.6rem, 6vw, 4.4rem); letter-spacing: -0.02em; }
   .loader-dim { width: min(280px, 62vw); height: 9px; position: relative; border-left: 1px solid var(--ink); border-right: 1px solid var(--ink); }
   .loader-dim::before { content: ""; position: absolute; left: 0; right: 0; top: 4px; height: 1px; background: var(--hairline); }
-  .loader-bar { position: absolute; left: 0; top: 4px; height: 1px; width: 0%; background: var(--red); transition: width 0.25s ease; }
+  .loader-bar { position: absolute; left: 0; top: 4px; height: 1px; width: 0%; background: var(--cut); transition: width 0.25s ease; }
   .loader-note { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
   .loader-note b { font-weight: 500; font-variant-numeric: tabular-nums; }
 
@@ -97,10 +97,10 @@ const vars = `--film-runway: ${Math.round(units * 100)}vh; --film-runway-mobile:
     position: absolute; inset: 0; background-color: var(--cream);
     /* drafting grid: fine lines every 32px, a heavier one every 160px */
     background-image:
-      linear-gradient(rgba(28, 23, 19, 0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(28, 23, 19, 0.07) 1px, transparent 1px),
-      linear-gradient(rgba(28, 23, 19, 0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(28, 23, 19, 0.035) 1px, transparent 1px);
+      linear-gradient(rgb(var(--ink-rgb) / 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--ink-rgb) / 0.07) 1px, transparent 1px),
+      linear-gradient(rgb(var(--ink-rgb) / 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--ink-rgb) / 0.035) 1px, transparent 1px);
     background-size: 160px 160px, 160px 160px, 32px 32px, 32px 32px;
     background-position: 0 var(--header-h);
   }
@@ -151,10 +151,10 @@ const vars = `--film-runway: ${Math.round(units * 100)}vh; --film-runway-mobile:
 
   /* The cut line riding the edge of the reveal, in drafting red */
   .panel-saw { position: absolute; pointer-events: none; z-index: 3; opacity: clamp(0, calc(min(var(--r), 1 - var(--r)) * 30), 1); }
-  .reveal-saw .panel-saw { top: 0; bottom: 0; width: 2px; left: calc(var(--r) * 100%); background: var(--red); }
-  .reveal-drawer .panel-saw { left: 0; right: 0; height: 2px; top: calc((1 - var(--r)) * 100%); background: var(--red); }
+  .reveal-saw .panel-saw { top: 0; bottom: 0; width: 2px; left: calc(var(--r) * 100%); background: var(--cut); }
+  .reveal-drawer .panel-saw { left: 0; right: 0; height: 2px; top: calc((1 - var(--r)) * 100%); background: var(--cut); }
   .reveal-doors .panel-saw { inset: 0; }
-  .reveal-doors .panel-saw::before, .reveal-doors .panel-saw::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--red); }
+  .reveal-doors .panel-saw::before, .reveal-doors .panel-saw::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--cut); }
   .reveal-doors .panel-saw::before { left: calc((1 - var(--r)) * 50%); }
   .reveal-doors .panel-saw::after { right: calc((1 - var(--r)) * 50%); }
   .reveal-skyline .panel-saw { display: none; }
@@ -231,13 +231,13 @@ const vars = `--film-runway: ${Math.round(units * 100)}vh; --film-runway-mobile:
   }
   .fp-no { color: var(--ink); font-weight: 500; }
   .fp-track { position: relative; width: clamp(3rem, 7vw, 6rem); height: 1px; background: var(--hairline); }
-  .fp-track i { position: absolute; inset: 0; background: var(--red); transform: scaleX(var(--p, 0)); transform-origin: left center; }
+  .fp-track i { position: absolute; inset: 0; background: var(--cut); transform: scaleX(var(--p, 0)); transform-origin: left center; }
   .scroll-cue {
     position: absolute; z-index: 21; left: 50%; bottom: clamp(1.4rem, 5vh, 3rem); transform: translateX(-50%);
     font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft);
     opacity: var(--cue, 1); transition: opacity 0.4s; pointer-events: none;
   }
-  .scroll-cue::after { content: ""; display: block; width: 1px; height: 22px; margin: 0.5rem auto 0; background: var(--red); animation: cue 1.8s ease-in-out infinite; transform-origin: top; }
+  .scroll-cue::after { content: ""; display: block; width: 1px; height: 22px; margin: 0.5rem auto 0; background: var(--cut); animation: cue 1.8s ease-in-out infinite; transform-origin: top; }
   @keyframes cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1) translateY(22px); opacity: 0; } }
 
   /* Tall, narrow screens: the title block takes the bottom edge; a run of doors stacks */

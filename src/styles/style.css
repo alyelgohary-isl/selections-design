@@ -16,12 +16,22 @@
   --ink-mute: #857b6c;
   --pine: #1c1713;         /* primary: ink */
   --pine-deep: #231b15;    /* the one dark band: stained walnut */
-  --moss: #b5381f;         /* small marks: drafting-pencil red */
+  --mark: #b5381f;         /* small marks: labels, sheet numbers, eyebrows */
+  --moss: var(--mark);
   --slate: #8a6a45;        /* sparing secondary: oak in shadow */
   --oak: #cfb086;          /* pale oak, for marks on the dark band */
-  --red: #b5381f;
-  --hairline: rgba(28, 23, 19, 0.16);
-  --rule: rgba(28, 23, 19, 0.55);
+  --red: var(--mark);
+  /* Roles, so a colourway can spend its one accent only where it converts (see the themes in selections.css) */
+  --accent: var(--ink);            /* buttons and the header CTA */
+  --accent-ink: var(--on-dark);    /* text on the accent */
+  --accent-hover: #b5381f;
+  --accent-hover-ink: var(--on-dark);
+  --cut: #b5381f;                  /* the cut line, progress, link underlines, focus */
+  --emph: var(--mark);             /* italic emphasis in headings */
+  --on-ink: var(--on-dark);        /* text on an ink-coloured surface */
+  --ink-rgb: 28 23 19;
+  --hairline: rgb(var(--ink-rgb) / 0.16);
+  --rule: rgb(var(--ink-rgb) / 0.55);
   --on-dark: #f1ebde;
 
   --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
