@@ -33,3 +33,7 @@ dist/
 
 # Internal build playbooks copied in by the scaffold: not part of the site
 skills/
+
+# Python bytecode
+__pycache__/
+*.pyc
