@@ -5,6 +5,7 @@ Five-page site for selectionsdesign.com: a static [Astro](https://astro.build) p
 - `src/components/motion/DrawnFilm.astro` + `Sheet.astro` + `drawn-film.js`: the full-viewport "drawing sheet" sequence (home, Work and Studio heroes). Live layers, no frame sequences: each sheet is a photograph and an ink drawing made from it.
 - `src/components/motion/ProcessDrawing.astro`: the pinned four-step shop drawing on the Millwork page (hand-authored SVG).
 - `tools/draw.sh <photo> <slug> <width>`: makes the registered photo + drawing pair in `public/assets/img/`.
+- `tools/restyle.sh <generated.png> <slug>`: puts an AI-restyled photo (same room and millwork, tidier contents) back at the original's exact size and keeps the original in `work/photos-original/`.
 - `tools/redraw.sh <generated.png> <slug>`: swaps a traced drawing for a cleaner one generated with Nano Banana 2 in edit mode from the same photo (`tools/kie.py image --ar 3:2 --ref <photo>`; prompt and spend are logged in `work/gen/kie.log`). The generated drawings stay registered with the photo; `kie.py` needs `requests` (`work/.venv`).
 - `src/styles/selections.css`: the theme, loaded after the template stylesheet. `src/data/projects.ts` and `clients.ts`: Work page and client schedule.
 - `ScrollFilm`, `ScrollScrub` and `HeroLoop` in `src/components/motion/` are unused here.

@@ -43,6 +43,9 @@ export const projects: Project[] = [
     ],
   },
   {
+    // These three photographs are restyled: an AI edit of the client's own photos that changes only what sits on
+    // the shelves (family photos and toys replaced with a few books and ceramics). The cabinetry is untouched.
+    // Originals: work/photos-original/. CONFIRM the client is happy to show the restyled versions.
     no: "A-104", title: "Library wall", type: "residential", tags: "Residential · Built-ins",
     desc: "Painted built-ins either side of a fireplace, with coloured backs, glazed lower doors and a matching unit on the return wall.",
     shots: [
