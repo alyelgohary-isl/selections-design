@@ -1,0 +1,17 @@
+---
+/* A wall of client logos on the sheet grid. Logos are shown in one ink (greyscale, multiplied
+   onto the paper, so white backgrounds disappear) and return to their own colours on hover. */
+import { url } from "../lib/url";
+import { clients } from "../data/clients";
+
+interface Props {
+  /** "wall": 5 across on wide screens, 2 on phones. "compact": tighter cells for the home film's closing sheet. */
+  variant?: "wall" | "compact";
+}
+const { variant = "wall" } = Astro.props;
+---
+<ul class:list={["logo-wall", variant === "compact" && "is-compact"]} aria-label="Clients">
+  {clients.map((c) => (
+    <li><img src={url(`assets/logos/${c.logo}`)} alt={c.name} loading="lazy" decoding="async" style={`--h:${c.h}`} /></li>
+  ))}
+</ul>

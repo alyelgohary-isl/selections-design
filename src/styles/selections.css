@@ -187,12 +187,25 @@ a:focus-visible, .btn:focus-visible, button:focus-visible { outline-color: var(-
 .project-tags { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); text-align: right; white-space: nowrap; }
 .project-desc { grid-column: 2 / -1; max-width: 58ch; color: var(--ink-soft); font-size: 1.04rem; margin-top: 0.4rem; }
 .strip { margin-top: clamp(1.4rem, 3.5vh, 2.4rem); overflow: hidden; }
-.strip-track { display: flex; gap: 12px; padding: 0 var(--gutter); height: clamp(300px, 64vh, 700px); width: max-content; will-change: transform; }
-.strip figure { position: relative; height: 100%; flex: none; margin: 0; outline: 1px solid var(--rule); outline-offset: -1px; }
+.strip-track { --strip-h: clamp(300px, 64vh, 700px); display: flex; gap: 12px; padding: 0 var(--gutter); height: var(--strip-h); width: max-content; will-change: transform; }
+.strip figure { position: relative; height: var(--strip-h); width: calc(var(--strip-h) * var(--ar, 1.5)); flex: none; margin: 0; overflow: hidden; outline: 1px solid var(--rule); outline-offset: -1px; }
 .strip figure > img, .strip figure .drawn { height: 100%; width: 100%; display: block; object-fit: cover; }
 .strip figcaption { position: absolute; left: 0; bottom: 0; background: var(--paper); border-top: 1px solid var(--ink); border-right: 1px solid var(--ink); font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.4rem 0.65rem; color: var(--ink-soft); z-index: 2; }
 .work-bar { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap; padding: 1.2rem var(--gutter); border-top: 1px solid var(--ink); }
 .work-bar .mono { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+
+/* ——— Client logos: a wall on the sheet grid ——— */
+.logo-wall { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--ink); border-left: 1px solid var(--rule); }
+.logo-wall li { display: grid; place-items: center; aspect-ratio: 5 / 3; padding: 12% 14%; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); min-width: 0; }
+.logo-wall img { --unit: clamp(34px, 3.6vw, 56px); display: block; width: auto; height: auto; max-width: 100%; max-height: calc(var(--unit) * var(--h, 1)); object-fit: contain; filter: grayscale(1) contrast(1.15); mix-blend-mode: multiply; opacity: 0.86; transition: filter 0.35s, opacity 0.35s; }
+.logo-wall li:hover img { filter: none; opacity: 1; }
+/* inside the film the wall sits in its own layer, so it carries the paper for the logos to multiply onto */
+.logo-wall.is-compact { background: var(--cream); }
+.logo-wall.is-compact li { aspect-ratio: auto; height: clamp(58px, 5.6vw, 88px); padding: 0 12%; overflow: hidden; }
+.logo-wall.is-compact img { --unit: clamp(20px, 2vw, 31px); }
+.long-clients .eyebrow { display: block; margin-bottom: 0.9rem; }
+html:is([data-theme="brass"], [data-theme="cyanotype"], [data-theme="oxblood"]) .logo-wall img { filter: grayscale(1) invert(1) contrast(1.1); mix-blend-mode: screen; }
+html:is([data-theme="brass"], [data-theme="cyanotype"], [data-theme="oxblood"]) .logo-wall li:hover img { filter: grayscale(1) invert(1) contrast(1.1); }
 
 /* ——— Archive row (Studio) ——— */
 .archive { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -237,9 +250,13 @@ a:focus-visible, .btn:focus-visible, button:focus-visible { outline-color: var(-
   .project-tags { grid-column: 2; grid-row: 1; white-space: normal; }
   .project-title { grid-column: 1 / -1; }
   .project-desc { grid-column: 1 / -1; }
-  .strip { overflow-x: auto; scroll-snap-type: x proximity; scroll-padding-left: var(--gutter); -webkit-overflow-scrolling: touch; }
-  .strip-track { height: clamp(260px, 52vh, 440px); gap: 8px; }
+  .strip { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scroll-padding-left: var(--gutter); -webkit-overflow-scrolling: touch; }
+  .strip-track { --strip-h: clamp(260px, 52vh, 440px); gap: 8px; }
   .strip figure { scroll-snap-align: start; }
+  .logo-wall { grid-template-columns: repeat(2, 1fr); }
+  .logo-wall img { --unit: clamp(34px, 11vw, 52px); }
+  .logo-wall.is-compact li { height: 60px; padding: 0 16%; }
+  .logo-wall.is-compact img { --unit: 25px; }
   .archive { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
 }

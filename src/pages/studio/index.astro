@@ -4,7 +4,7 @@ import DrawnFilm from "@/components/motion/DrawnFilm.astro";
 import Sheet from "@/components/motion/Sheet.astro";
 import { site } from "@/site.config";
 import { url, absolute } from "@/lib/url";
-import { clients } from "@/data/clients";
+import ClientLogos from "@/components/ClientLogos.astro";
 
 const schema = [
   {
@@ -67,20 +67,16 @@ const schema = [
     </section>
 
     <section class="section" id="clients">
-      <div class="wrap statement">
-        <div class="reveal">
-          <span class="eyebrow">Commercial clients</span>
-          <h2 style="margin-top:0.9rem">Trusted by Canadian brands and institutions.</h2>
-          <p style="margin-top:1.2rem">A proud Canadian business. Alongside private homes, we build for restaurants, universities, school boards, cities and transit.</p>
-          <div class="hero-ctas" style="margin-top:1.6rem"><a class="btn btn-ghost" href={url("work/?type=commercial")}>Commercial work</a></div>
+      <div class="wrap">
+        <div class="split-head">
+          <div class="section-head reveal">
+            <span class="eyebrow">Commercial clients</span>
+            <h2>Trusted by Canadian brands and institutions.</h2>
+            <p>A proud Canadian business. Alongside private homes, we build for restaurants, universities, school boards, cities and transit.</p>
+          </div>
+          <a class="btn btn-ghost reveal" href={url("work/?type=commercial")}>Commercial work</a>
         </div>
-        <table class="schedule roomy reveal">
-          <caption>Client schedule</caption>
-          <thead><tr><th>Mark</th><th>Client</th><th>Sector</th></tr></thead>
-          <tbody>
-            {clients.map((c, i) => <tr><td>C{String(i + 1).padStart(2, "0")}</td><td class="name">{c.name}</td><td>{c.sector}</td></tr>)}
-          </tbody>
-        </table>
+        <div class="reveal"><ClientLogos /></div>
       </div>
     </section>
 

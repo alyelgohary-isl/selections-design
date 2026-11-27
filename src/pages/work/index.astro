@@ -6,6 +6,10 @@ import { url, absolute } from "@/lib/url";
 import { projects } from "@/data/projects";
 
 const img = (name: string) => url(`assets/img/${name}.webp`);
+/* "3/2" → 1.5. Each strip figure's width is its height times this, set explicitly: left to
+   aspect-ratio alone, iOS Safari sized the row from the photos' full pixel widths and let it
+   scroll far past the last image. */
+const ratio = (ar: string) => { const [a, b] = ar.split("/").map(Number); return (a / b).toFixed(4); };
 const schema = [
   {
     "@context": "https://schema.org",
@@ -64,7 +68,7 @@ const schema = [
         <div class="strip" data-strip>
           <div class="strip-track">
             {p.shots.map((s, i) => (
-              <figure style={`aspect-ratio:${s.ar}`}>
+              <figure style={`--ar:${ratio(s.ar)}`}>
                 {i === 0 ? (
                   <div class="drawn" data-drawn>
                     <img class="drawn-line" src={img(`${s.src}-line`)} alt="" loading="lazy" />
@@ -84,7 +88,7 @@ const schema = [
     <section class="section pine final-cta" id="start">
       <div class="wrap reveal">
         <span class="eyebrow">Start a drawing</span>
-        <h2 style="margin-top:1rem">Yours could be sheet A-109.</h2>
+        <h2 style="margin-top:1rem">Have a project in mind?</h2>
         <p>Tell us about the room. The first consultation is free.</p>
         <div class="hero-ctas">
           <a class="btn btn-light btn-lg" href={url("contact/?reason=Residential")}>A home project</a>

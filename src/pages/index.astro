@@ -4,7 +4,7 @@ import DrawnFilm from "@/components/motion/DrawnFilm.astro";
 import Sheet from "@/components/motion/Sheet.astro";
 import { site } from "@/site.config";
 import { url } from "@/lib/url";
-import { clients } from "@/data/clients";
+import ClientLogos from "@/components/ClientLogos.astro";
 
 /* Copy: work/copy.md. Every photograph is the client's own; every drawing is made from that
    photograph (tools/draw.sh). Facts not in the source material are CONFIRM comments. */
@@ -79,13 +79,10 @@ const builds = [
           <p class="long-figure" data-in style="--d:0.4"><span class="stat-number" data-value="30" data-decimals="0">30</span><sup>+</sup></p>
           <p class="long-caption" data-in style="--d:0.8">years of millwork across the GTA and Muskoka.</p>
         </div>
-        <table class="schedule" data-in style="--d:1.2">
-          <caption>Client schedule</caption>
-          <thead><tr><th>Mark</th><th>Client</th><th>Sector</th></tr></thead>
-          <tbody>
-            {clients.map((c, i) => <tr><td>C{String(i + 1).padStart(2, "0")}</td><td class="name">{c.name}</td><td>{c.sector}</td></tr>)}
-          </tbody>
-        </table>
+        <div class="long-clients" data-in style="--d:1.2">
+          <span class="eyebrow">Trusted by</span>
+          <ClientLogos variant="compact" />
+        </div>
       </div>
     </Sheet>
   </DrawnFilm>
